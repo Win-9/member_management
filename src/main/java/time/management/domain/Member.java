@@ -1,9 +1,12 @@
 package time.management.domain;
 
 
+
+import lombok.Getter;
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class Member {
     @Id
     @Column(name = "STUDENT_ID")
@@ -30,4 +33,16 @@ public class Member {
 
     @Embedded
     private CountInfo countInfo;
+
+    //Major add
+    public void addMajor(Member member){
+        member.getMajor().getMembers().add(this);
+    }
+
+    public void createBasicMember(String id, String name, int grade, Major major){
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.major = major;
+    }
 }
