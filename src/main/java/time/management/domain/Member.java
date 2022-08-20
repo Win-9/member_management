@@ -9,7 +9,6 @@ public class Member {
     @Column(name = "STUDENT_ID")
     private String id;
 
-    @Column(name = "MAJOR_NAME")
     @ManyToOne
     private Major major;
 
