@@ -1,10 +1,11 @@
-package time.management.repository;
+package time.management.service;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import time.management.domain.Member;
+import time.management.repository.MemberRepository;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = false)
-    public void addMember(Member member){
+    public void joinMember(Member member){
          memberRepository.join(member);
     }
 
@@ -23,8 +24,9 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
+    @Transactional
     public void deleteMember(Member member) {
-
+        memberRepository.deleteMember(member);
     }
 
     public List<Member> findByMemberName(String name){

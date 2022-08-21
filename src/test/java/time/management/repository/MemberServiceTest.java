@@ -7,10 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import time.management.domain.Major;
 import time.management.domain.Member;
+import time.management.service.MemberService;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MemberServiceTest {
@@ -27,14 +26,17 @@ class MemberServiceTest {
         Major major = createMajor();
         Member member = createMember(major);
 
-        memberService.addMember(member);
+        memberService.joinMember(member);
 
+        System.out.println("=====");
         Member findMember = memberService.findByMemberId("2018111");
+        System.out.println("=====");
+
+        System.out.println("===!==");
+        List<Member> all = memberService.findAll();
+        System.out.println("===!==");
 
         Assertions.assertEquals(findMember, member);
-
-        System.out.println("findMember.getId() = " + findMember.getId());
-        System.out.println("member = " + member.getId());
     }
 
     private Member createMember(Major major) {
@@ -55,9 +57,7 @@ class MemberServiceTest {
         Major major = createMajor();
         Member member = createMember(major);
         majorRepository.join(major);
-        memberService.addMember(member);
-        List<Member> members = memberService.findAll();
-        System.out.println("all.size() = " + members.size());
+        memberService.joinMember(member);
 
         memberService.deleteMember(member);
 
