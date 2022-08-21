@@ -12,6 +12,9 @@ public class Member {
     @Column(name = "STUDENT_ID")
     private String id;
 
+    @Transient
+    private int index;
+
     @ManyToOne
     private Major major;
 
@@ -44,5 +47,17 @@ public class Member {
         this.name = name;
         this.grade = grade;
         this.major = major;
+    }
+
+    public void addDetails(Position position, String phoneNumber, StudentStatus studentStatus, Gender gender, CountInfo countInfo){
+        this.position = position;
+        this.phoneNumber = phoneNumber;
+        this.studentStatus = studentStatus;
+        this.gender = gender;
+        this.countInfo = countInfo;
+    }
+
+    public void setIndex(int index){
+        this.index = index;
     }
 }

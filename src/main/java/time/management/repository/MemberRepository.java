@@ -3,6 +3,7 @@ package time.management.repository;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import time.management.domain.Member;
 
@@ -11,12 +12,15 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class MemberRepository {
+    static int index = 1;
     private final EntityManager em;
 
     public void join(Member member){
-        em.persist(member);
         member.addMajor(member);
+        member.setIndex(index++);
+        em.persist(member);
     }
 
     public Member findById(String id){
