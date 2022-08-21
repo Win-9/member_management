@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: header"/>
+<style>
+    .jumbotron{
+        padding: 5%;
+    }
+</style>
+<body>
+<div th:replace="fragments/navbar :: fragment-nav"></div>
+
+<div class="jumbotron">
+    <form class="row g-3">
+        <div class="mb-3">
+            <label for="studentID" class="form-label">학번</label>
+            <input type="text" class="form-control" id="studentID" placeholder="StudentId">
+        </div>
+        <div class="mb-3">
+            <label for="major" class="form-label">전공</label>
+            <input type="text" class="form-control" id="major" placeholder="Major">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">이름</label>
+            <input type="text" class="form-control" id="name" placeholder="Name">
+        </div>
+        <div class="mb-3">
+            <label for="grade" class="form-label">학년</label>
+            <input type="text" class="form-control" id="grade" placeholder="Grade">
+        </div>
+
+        <div class="col-md-8">
+            <label for="phoneNumber" class="form-label">전화번호</label>
+            <input type="text" class="form-control" id="phoneNumber" placeholder="PhoneNumber">
+        </div>
+        <div class="col-md-2">
+            <label for="gender" class="form-label">성별</label>
+            <select id="gender" class="form-select">
+                <option>남</option>
+                <option>여</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="studentState" class="form-label">재학여부</label>
+            <select id="studentState" class="form-select">
+                <option>재학</option>
+                <option selected>신입</option>
+                <option>휴햑</option>
+                <option>군휴학</option>
+                <option>졸업</option>
+            </select>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">등록</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
