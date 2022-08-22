@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    tr:hover{
+        background: gray;
+    }
+    .tableDiv{
+        padding: 5%;
+    }
+</style>
+<body>
+<div th:replace="fragments/navbar :: fragment-nav"></div>
+<div class="tableDiv">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Major</th>
+            <th scope="col">ID</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.index}"></td>
+            <td th:text="${member.name}"></td>
+            <td th:text="${member.position}"></td>
+            <td th:text="${member.major.name}"></td>
+            <td th:text="${member.id}"></td>
+            <th><button type="button" class="btn btn-danger">수정</button></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
