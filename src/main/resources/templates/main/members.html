@@ -1,9 +1,18 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
+<style>
+    tr:hover{
+        background: gray;
+    }
+    .tableDiv{
+        padding: 5%;
+    }
+
+</style>
 <body>
 <div th:replace="fragments/navbar :: fragment-nav"></div>
-<div>
+<div class="tableDiv">
     <table class="table table-striped">
         <thead>
         <tr>

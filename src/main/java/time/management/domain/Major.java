@@ -15,7 +15,7 @@ public class Major {
     @Column(name = "MAJOR_NAME")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "major")
+    @OneToMany(mappedBy = "major")
     private List<Member> members = new ArrayList<>();
 
     public void createBasicMajor(String name){
