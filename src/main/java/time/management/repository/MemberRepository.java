@@ -18,7 +18,6 @@ public class MemberRepository {
     private final EntityManager em;
 
     public void join(Member member){
-        member.addMajor(member);
         member.setIndex(index++);
         em.persist(member);
     }
