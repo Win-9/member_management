@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import time.management.domain.Major;
+import time.management.domain.Member;
 import time.management.repository.MajorRepository;
 
 @Service
@@ -16,5 +17,9 @@ public class MajorService {
     @Transactional
     public void joinMajor(Major major){
         majorRepository.join(major);
+    }
+
+    public Major findByMajorName(String name){
+        return majorRepository.findOne(name);
     }
 }

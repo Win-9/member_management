@@ -2,22 +2,32 @@ package time.management.domain;
 
 
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"id", "name", "grade", "studentStatus"})
+
 public class Member {
     @Id
     @Column(name = "STUDENT_ID")
+    @NotNull
     private String id;
 
-    @Transient
     private int index;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private Major major;
 
+    @NotNull
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -38,15 +48,17 @@ public class Member {
     private CountInfo countInfo;
 
     //Major add
-    public void addMajor(Member member){
-        member.getMajor().getMembers().add(this);
+    public void changeMajor(Major major){
+        if (major != null) {
+            this.major = major;
+        }
     }
 
-    public void createBasicMember(String id, String name, int grade, Major major){
+    public Member(String id, String name, int grade, Major major){
         this.id = id;
         this.name = name;
         this.grade = grade;
-        this.major = major;
+        changeMajor(major);
     }
 
     public void addDetails(Position position, String phoneNumber, StudentStatus studentStatus, Gender gender, CountInfo countInfo){
