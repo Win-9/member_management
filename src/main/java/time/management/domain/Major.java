@@ -21,4 +21,8 @@ public class Major {
     public void createBasicMajor(String name){
         this.name = name;
     }
+
+    public void deleteMember(Member member) {
+        members.remove(member);
+    }
 }

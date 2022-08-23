@@ -51,8 +51,9 @@ public class TestDbInit {
         }
 
         private Member createMember(String studentId, String name, int grade, Major major, Position position, String phoneNumber, StudentStatus studentStatus, Gender gender, CountInfo countInfo) {
-            Member member = new Member(studentId, name, grade, major);
-            member.addDetails(position, phoneNumber, studentStatus, gender, countInfo);
+            Member member = new Member();
+            member.changeMemberInfo(studentId, name, grade, major);
+            member.changeMemberInfoDetails(position, phoneNumber, studentStatus, gender, countInfo);
             return member;
         }
 
