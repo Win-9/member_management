@@ -1,40 +1,63 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: header"/>
 <style>
-    tr:hover{
-        background: gray;
-    }
-    .tableDiv{
+    .jumbotron{
         padding: 5%;
     }
 </style>
 <body>
 <div th:replace="fragments/navbar :: fragment-nav"></div>
-<div class="tableDiv">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Position</th>
-            <th scope="col">Major</th>
-            <th scope="col">ID</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="member : ${members}">
-            <td th:text="${member.index}"></td>
-            <td th:text="${member.name}"></td>
-            <td th:text="${member.position}"></td>
-            <td th:text="${member.major.name}"></td>
-            <td th:text="${member.id}"></td>
-            <th><button type="button" class="btn btn-danger">수정</button></th>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
+<div class="jumbotron">
+    <form class="row g-3" th:action="@{/management/modify/{id} (id=*{id})}" method="post" th:object = "${findMember}">
+        <div class="mb-3">
+            <label for="studentID" class="form-label">학번</label>
+            <input type="text" disabled class="form-control" id="studentID" name = "studentID" placeholder="StudentId" th:field = "*{id}">
+        </div>
+        <div class="mb-3">
+            <label for="major" class="form-label">전공</label>
+            <input type="text" class="form-control" id="major" name="major" placeholder="Major" th:value = "*{major.name}">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">이름</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" th:value = "*{name}">
+        </div>
+        <div class="mb-3">
+            <label for="grade" class="form-label">학년</label>
+            <input type="text" class="form-control" id="grade" name="grade" placeholder="Grade" th:value = "*{grade}">
+        </div>
+
+        <div class="col-md-6">
+            <label for="phoneNumber" class="form-label">전화번호</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="PhoneNumber" th:value = "*{phoneNumber}">
+        </div>
+        <div class="col-md-2">
+            <label for="gender" class="form-label">성별</label>
+            <select id="gender" class="form-select" name="gender">
+                <option th:each="gender : ${genders}" th:text="${gender.getValue()}"
+                th:selected = "${gender.getValue()} == *{gender.value}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="studentState" class="form-label">재학여부</label>
+            <select id="studentState" class="form-select" name="studentState">
+                <option th:each="status : ${studentStatuses}" th:text="${status.getValue()}"
+                th:selected = "${status.getValue()} == *{studentStatus.value}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="position" class="form-label">직책</label>
+            <select id="position" class="form-select" name="position">
+                <option th:each="position : ${positions}" th:text = "${position.getValue()}"
+                 th:selected = "${position.getValue()} == *{position.value}"></option>
+            </select>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">수정완료</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
