@@ -4,9 +4,11 @@ package time.management.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import time.management.domain.*;
 import time.management.dto.MemberFormDto;
@@ -23,6 +25,11 @@ public class MemberController {
     private final MemberService memberService;
     private final MajorService majorService;
 
+    /**
+     * memberList Get
+     * @param model
+     * @return
+     */
     @GetMapping("/management/members")
     public String memberListController(Model model) {
         List<Member> members = memberService.findAll();
@@ -36,6 +43,11 @@ public class MemberController {
         return "main/members";
     }
 
+    /**
+     * addMember Get
+     * @param model
+     * @return
+     */
     @GetMapping("/management/addMember")
     public String addMemberController(Model model) {
         model.addAttribute("genders", Gender.values());
@@ -45,6 +57,11 @@ public class MemberController {
         return "main/addMemberForm";
     }
 
+    /**
+     * addMemberForm Post
+     * @param memberFormDto
+     * @return
+     */
     @PostMapping("/management/addMember")
     public String addMemberFormController(@ModelAttribute MemberFormDto memberFormDto) {
 
@@ -61,24 +78,78 @@ public class MemberController {
             majorService.joinMajor(findMajor);
         }
 
-        Member member = new Member(memberFormDto.getStudentID(), memberFormDto.getName(),
+        Member member = new Member();
+        member.changeMemberInfo(memberFormDto.getStudentID(), memberFormDto.getName(),
                 memberFormDto.getGrade(), findMajor);
 
-        member.addDetails(memberFormDto.getPosition(), memberFormDto.getPhoneNumber(),
+        member.changeMemberInfoDetails(memberFormDto.getPosition(), memberFormDto.getPhoneNumber(),
                 memberFormDto.getStudentState(), memberFormDto.getGender(),
-                new CountInfo(0,0,0));
+                new CountInfo(0, 0, 0));
 
         memberService.joinMember(member);
 
-        return "redirect:/";
+        return "redirect:/management/addMember";
     }
 
+    /**
+     * modifyMember Get
+     * @param model
+     * @return
+     */
     @GetMapping("/management/modify")
-    public String modifyController(Model model){
+    public String modifyController(Model model) {
         List<Member> members = memberService.findAll();
         model.addAttribute("members", members);
+
+        return "main/modifyMemberList";
+    }
+
+    /**
+     * modifyMember Get
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/management/modify/{id}")
+    public String modifyMemberController(@PathVariable String id, Model model){
+        log.info("modifyMemberController");
+
+        Member findMember = memberService.findByMemberId(id);
+        model.addAttribute("findMember", findMember);
+        model.addAttribute("genders", Gender.values());
+        model.addAttribute("studentStatuses", StudentStatus.values());
+        model.addAttribute("positions", Position.values());
 
         return "main/modifyMember";
     }
 
+    @Transactional
+    @PostMapping("/management/modify/{id}")
+    public String modifyMemberFormController(@PathVariable String id, @ModelAttribute MemberFormDto memberFormDto){
+        Member findMember = memberService.findByMemberId(id);
+
+        //major 수정시
+        if (!memberFormDto.getMajor().equals(findMember.getMajor().getName())){
+
+            Major findMajor = majorService.findByMajorName(memberFormDto.getMajor());
+
+            if (findMajor == null) {
+                findMajor = new Major();
+                findMajor.createBasicMajor(memberFormDto.getMajor());
+                majorService.joinMajor(findMajor);
+            }
+
+            findMember.getMajor().deleteMember(findMember);//속한 major 변경
+
+
+            findMember.changeMemberInfo(memberFormDto.getName(), memberFormDto.getGrade(), findMajor);
+        }
+        else{
+            findMember.changeMemberInfo(memberFormDto.getName(), memberFormDto.getGrade());
+        }
+        findMember.changeMemberInfoDetails(memberFormDto.getPosition(), memberFormDto.getPhoneNumber(),
+                memberFormDto.getStudentState(), memberFormDto.getGender());
+
+        return "redirect:/management/modify";
+    }
 }

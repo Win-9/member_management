@@ -40,7 +40,8 @@ class MemberServiceTest {
     }
 
     private Member createMember(Major major) {
-        Member member = new Member("2018111", "응우옌", 1, major);
+        Member member = new Member();
+        member.changeMemberInfo("2018111", "응우옌", 1, major);
         return member;
     }
 
