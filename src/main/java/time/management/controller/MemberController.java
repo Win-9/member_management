@@ -128,27 +128,15 @@ public class MemberController {
     public String modifyMemberFormController(@PathVariable String id, @ModelAttribute MemberFormDto memberFormDto){
         Member findMember = memberService.findByMemberId(id);
 
-        //major 수정시
-        if (!memberFormDto.getMajor().equals(findMember.getMajor().getName())){
+        Major findMajor = majorService.findByMajorName(memberFormDto.getMajor());
 
-            Major findMajor = majorService.findByMajorName(memberFormDto.getMajor());
-
-            if (findMajor == null) {
-                findMajor = new Major();
-                findMajor.createBasicMajor(memberFormDto.getMajor());
-                majorService.joinMajor(findMajor);
-            }
-
-            findMember.getMajor().deleteMember(findMember);//속한 major 변경
-
-
-            findMember.changeMemberInfo(memberFormDto.getName(), memberFormDto.getGrade(), findMajor);
+        if (findMajor == null) {
+            findMajor = new Major();
+            findMajor.createBasicMajor(memberFormDto.getMajor());
+            majorService.joinMajor(findMajor);//새로운 major 생성
         }
-        else{
-            findMember.changeMemberInfo(memberFormDto.getName(), memberFormDto.getGrade());
-        }
-        findMember.changeMemberInfoDetails(memberFormDto.getPosition(), memberFormDto.getPhoneNumber(),
-                memberFormDto.getStudentState(), memberFormDto.getGender());
+
+        memberService.updateMember(findMember, memberFormDto, findMajor);//새로운 major 생성
 
         return "redirect:/management/modify";
     }
