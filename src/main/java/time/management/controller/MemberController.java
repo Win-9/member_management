@@ -27,6 +27,7 @@ public class MemberController {
 
     /**
      * memberList Get
+     *
      * @param model
      * @return
      */
@@ -45,6 +46,7 @@ public class MemberController {
 
     /**
      * addMember Get
+     *
      * @param model
      * @return
      */
@@ -59,6 +61,7 @@ public class MemberController {
 
     /**
      * addMemberForm Post
+     *
      * @param memberFormDto
      * @return
      */
@@ -93,6 +96,7 @@ public class MemberController {
 
     /**
      * modifyMember Get
+     *
      * @param model
      * @return
      */
@@ -106,12 +110,13 @@ public class MemberController {
 
     /**
      * modifyMember Get
+     *
      * @param id
      * @param model
      * @return
      */
     @GetMapping("/management/modify/{id}")
-    public String modifyMemberController(@PathVariable String id, Model model){
+    public String modifyMemberController(@PathVariable String id, Model model) {
         log.info("modifyMemberController");
 
         Member findMember = memberService.findByMemberId(id);
@@ -125,7 +130,7 @@ public class MemberController {
 
     @Transactional
     @PostMapping("/management/modify/{id}")
-    public String modifyMemberFormController(@PathVariable String id, @ModelAttribute MemberFormDto memberFormDto){
+    public String modifyMemberFormController(@PathVariable String id, @ModelAttribute MemberFormDto memberFormDto) {
         Member findMember = memberService.findByMemberId(id);
 
         Major findMajor = majorService.findByMajorName(memberFormDto.getMajor());
@@ -139,5 +144,14 @@ public class MemberController {
         memberService.updateMember(findMember, memberFormDto, findMajor);//새로운 major 생성
 
         return "redirect:/management/modify";
+    }
+
+    @GetMapping("/management/attendList")
+    public String memberAttendListController(Model model){
+
+        List<Member> members = memberService.findAll();
+        model.addAttribute("members", members);
+
+        return "main/attendList";
     }
 }
