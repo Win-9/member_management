@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    tr:hover{
+        background: gray;
+    }
+    .tableDiv{
+        padding: 5%;
+    }
+    .center{
+        width: 150px;
+        margin: 0 auto;
+    }
+</style>
+<body>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<div th:replace="fragments/navbar :: fragment-nav"></div>
+<div class="tableDiv">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">ID</th>
+            <th scope="col">Attend</th>
+            <th scope="col">Quiz</th>
+            <th scope="col">Question</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.index}"></td>
+            <td th:text="${member.name}"></td>
+            <td th:text="${member.id}"></td>
+            <td>
+                <div class="center">
+                    <div class="input-group">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                  <span class="glyphicon glyphicon-minus"></span>
+                              </button>
+                          </span>
+                    <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="1000">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                  <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                        </span>
+                     </div>
+                </div>
+            </td>
+            <td>
+                <div class="center">
+                    <div class="input-group">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                  <span class="glyphicon glyphicon-minus"></span>
+                              </button>
+                          </span>
+                        <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="1000">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                  <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                        </span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="center">
+                    <div class="input-group">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                  <span class="glyphicon glyphicon-minus"></span>
+                              </button>
+                          </span>
+                        <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="1000">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                  <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                        </span>
+                    </div>
+                </div>
+            </td>
+            <th><a type="button" class="btn btn-danger" th:href="@{/management/modify/{id} (id=${member.id})}">수정</a></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    $('.btn-number').click(function(e){
+        e.preventDefault();
+
+        fieldName = $(this).attr('data-field');
+        type      = $(this).attr('data-type');
+        var input = $("input[name='"+fieldName+"']");
+        var currentVal = parseInt(input.val());
+        if (!isNaN(currentVal)) {
+            if(type == 'minus') {
+                input.val(currentVal - 1).change();
+
+            } else if(type == 'plus') {
+                input.val(currentVal + 1).change();
+            }
+        } else {
+            input.val(0);
+        }
+    });
+    $('.input-number').focusin(function(){
+        $(this).data('oldValue', $(this).val());
+    });
+    $('.input-number').change(function() {
+
+        minValue =  parseInt($(this).attr('min'));
+        maxValue =  parseInt($(this).attr('max'));
+        valueCurrent = parseInt($(this).val());
+
+        name = $(this).attr('name');
+        if(valueCurrent >= minValue) {
+            $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+        } else {
+            alert('Sorry, the minimum value was reached');
+            $(this).val($(this).data('oldValue'));
+        }
+        if(valueCurrent <= maxValue) {
+            $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+        } else {
+            alert('Sorry, the maximum value was reached');
+            $(this).val($(this).data('oldValue'));
+        }
+    });
+</script>
+</body>
+</html>
