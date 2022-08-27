@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +58,7 @@ public class MemberController {
         model.addAttribute("genders", Gender.values());
         model.addAttribute("studentStatus", StudentStatus.values());
         model.addAttribute("positions", Position.values());
+        model.addAttribute("member", new MemberFormDto());
 
         return "main/addMemberForm";
     }
@@ -66,11 +70,44 @@ public class MemberController {
      * @return
      */
     @PostMapping("/management/addMember")
-    public String addMemberFormController(@ModelAttribute MemberFormDto memberFormDto) {
+    public String addMemberFormController(@ModelAttribute(name = "member") MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 
         log.info("name = {}", memberFormDto.getName());
         log.info("major = {}", memberFormDto.getMajor());
         log.info("id = {}", memberFormDto.getStudentID());
+
+        //ID valid
+        if (!StringUtils.hasText(memberFormDto.getStudentID())) {
+            bindingResult.addError(new FieldError("member", "studentID", "학번 입력은 필수 입니다."));
+        }
+
+        //major valid
+        if (!StringUtils.hasText(memberFormDto.getMajor())){
+            bindingResult.addError(new FieldError("member", "major", "학과 입력은 필수 입니다."));
+        }
+
+        //name valid
+        if (!StringUtils.hasText(memberFormDto.getName())){
+            bindingResult.addError(new FieldError("member", "name", "이름 입력은 필수 입니다."));
+        }
+
+        //grade valid
+        if (memberFormDto.getGrade() == null){
+            bindingResult.addError(new FieldError("member", "grade", "이름 입력은 필수 입니다."));
+        }
+
+        //phone valid
+        if (!StringUtils.hasText(memberFormDto.getPhoneNumber())){
+            bindingResult.addError(new FieldError("member", "phoneNumber", "전화번호 입력은 필수 입니다."));
+        }
+
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", Gender.values());
+            model.addAttribute("studentStatus", StudentStatus.values());
+            model.addAttribute("positions", Position.values());
+            return "main/addMemberForm";
+        }
 
         Major findMajor = majorService.findByMajorName(memberFormDto.getMajor());
 

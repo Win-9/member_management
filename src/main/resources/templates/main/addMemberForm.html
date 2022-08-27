@@ -5,32 +5,46 @@
     .jumbotron{
         padding: 5%;
     }
+    .field-error{
+        border-color: #dc3545;
+        color: #dc3545;
+    }
 </style>
 <body>
 <div th:replace="fragments/navbar :: fragment-nav"></div>
 
 <div class="jumbotron">
-    <form class="row g-3" action="/management/addMember" method="post">
+    <form class="row g-3" th:object="${member}" action="/management/addMember" method="post">
         <div class="mb-3">
             <label for="studentID" class="form-label">학번</label>
-            <input type="text" class="form-control" id="studentID" name = "studentID" placeholder="StudentId">
+            <input type="text" class="form-control" id="studentID" th:field="*{studentID}"
+                   th:errorclass="field-error" placeholder="StudentId">
+            <div class="field-error" th:errors="*{studentID}">학번입력오류</div>
         </div>
         <div class="mb-3">
             <label for="major" class="form-label">전공</label>
-            <input type="text" class="form-control" id="major" name="major" placeholder="Major">
+            <input type="text" class="form-control" id="major" th:field="*{major}"
+                   th:errorclass="field-error" placeholder="Major">
+            <div class="field-error" th:errors="*{major}">전공입력오류</div>
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">이름</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+            <input type="text" class="form-control" id="name" th:field="*{name}"
+                   th:errorclass="field-error" placeholder="Name">
+            <div class="field-error" th:errors="*{name}">이름입력오류</div>
         </div>
         <div class="mb-3">
             <label for="grade" class="form-label">학년</label>
-            <input type="text" class="form-control" id="grade" name="grade" placeholder="Grade">
+            <input type="text" class="form-control" id="grade" th:field="*{grade}"
+                   th:errorclass="field-error" placeholder="Grade">
+            <div class="field-error" th:errors="*{grade}">학년입력오류</div>
         </div>
 
         <div class="col-md-6">
             <label for="phoneNumber" class="form-label">전화번호</label>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="PhoneNumber">
+            <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
+                   th:errorclass="field-error" name="phoneNumber" placeholder="PhoneNumber">
+            <div class="field-error" th:errors="*{phoneNumber}">전화번호입력오류</div>
         </div>
         <div class="col-md-2">
             <label for="gender" class="form-label">성별</label>
