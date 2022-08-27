@@ -14,7 +14,7 @@ public class MemberFormDto {
     private String studentID;
     private String major;
     private String name;
-    private int grade;
+    private Integer grade;
     private String phoneNumber;
     private Gender gender;
     private StudentStatus studentState;
