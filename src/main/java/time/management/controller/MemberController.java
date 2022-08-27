@@ -17,6 +17,7 @@ import time.management.domain.*;
 import time.management.dto.MemberFormDto;
 import time.management.service.MajorService;
 import time.management.service.MemberService;
+import time.management.validation.MemberValidator;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MajorService majorService;
+    private final MemberValidator memberValidator;
 
     /**
      * memberList Get
@@ -76,30 +78,7 @@ public class MemberController {
         log.info("major = {}", memberFormDto.getMajor());
         log.info("id = {}", memberFormDto.getStudentID());
 
-        //ID valid
-        if (!StringUtils.hasText(memberFormDto.getStudentID())) {
-            bindingResult.addError(new FieldError("member", "studentID", "학번 입력은 필수 입니다."));
-        }
-
-        //major valid
-        if (!StringUtils.hasText(memberFormDto.getMajor())){
-            bindingResult.addError(new FieldError("member", "major", "학과 입력은 필수 입니다."));
-        }
-
-        //name valid
-        if (!StringUtils.hasText(memberFormDto.getName())){
-            bindingResult.addError(new FieldError("member", "name", "이름 입력은 필수 입니다."));
-        }
-
-        //grade valid
-        if (memberFormDto.getGrade() == null){
-            bindingResult.addError(new FieldError("member", "grade", "이름 입력은 필수 입니다."));
-        }
-
-        //phone valid
-        if (!StringUtils.hasText(memberFormDto.getPhoneNumber())){
-            bindingResult.addError(new FieldError("member", "phoneNumber", "전화번호 입력은 필수 입니다."));
-        }
+        memberValidator.validate(memberFormDto, bindingResult);
 
 
         if (bindingResult.hasErrors()) {
