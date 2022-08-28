@@ -53,9 +53,13 @@
                  th:selected = "${position.getValue()} == *{position.value}"></option>
             </select>
         </div>
+        <!--버튼-->
 
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">수정완료</button>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary">수정</button>
+        </div>
+        <div class="col-md-1">
+            <a type="button" class="btn btn-danger" th:href="@{/management/delete/{id} (id=*{id})}">삭제</a>
         </div>
     </form>
 </div>
