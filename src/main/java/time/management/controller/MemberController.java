@@ -9,10 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import time.management.domain.*;
 import time.management.dto.MemberFormDto;
 import time.management.service.MajorService;
@@ -169,5 +166,14 @@ public class MemberController {
         model.addAttribute("members", members);
 
         return "main/attendList";
+    }
+
+    @GetMapping("/management/delete/{id}")
+    public String deleteMemberController(@PathVariable String id) {
+        log.info("deleteMemberController");
+        Member findMember = memberService.findByMemberId(id);
+        memberService.deleteMember(findMember);
+
+        return "redirect:/management/members";
     }
 }

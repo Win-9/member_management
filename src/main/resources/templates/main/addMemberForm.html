@@ -18,32 +18,32 @@
         <div class="mb-3">
             <label for="studentID" class="form-label">학번</label>
             <input type="text" class="form-control" id="studentID" th:field="*{studentID}"
-                   th:errorclass="field-error" placeholder="StudentId">
+                   th:errorclass="is-invalid" placeholder="StudentId">
             <div class="field-error" th:errors="*{studentID}">학번입력오류</div>
         </div>
         <div class="mb-3">
             <label for="major" class="form-label">전공</label>
             <input type="text" class="form-control" id="major" th:field="*{major}"
-                   th:errorclass="field-error" placeholder="Major">
+                   th:errorclass="is-invalid" placeholder="Major">
             <div class="field-error" th:errors="*{major}">전공입력오류</div>
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">이름</label>
             <input type="text" class="form-control" id="name" th:field="*{name}"
-                   th:errorclass="field-error" placeholder="Name">
+                   th:errorclass="is-invalid" placeholder="Name">
             <div class="field-error" th:errors="*{name}">이름입력오류</div>
         </div>
         <div class="mb-3">
             <label for="grade" class="form-label">학년</label>
             <input type="text" class="form-control" id="grade" th:field="*{grade}"
-                   th:errorclass="field-error" placeholder="Grade">
+                   th:errorclass="is-invalid" placeholder="Grade">
             <div class="field-error" th:errors="*{grade}">학년입력오류</div>
         </div>
 
         <div class="col-md-6">
             <label for="phoneNumber" class="form-label">전화번호</label>
             <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
-                   th:errorclass="field-error" name="phoneNumber" placeholder="PhoneNumber">
+                   th:errorclass="is-invalid" name="phoneNumber" placeholder="PhoneNumber">
             <div class="field-error" th:errors="*{phoneNumber}">전화번호입력오류</div>
         </div>
         <div class="col-md-2">
