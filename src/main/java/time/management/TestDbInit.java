@@ -18,8 +18,7 @@ public class TestDbInit {
 
     @PostConstruct
     public void init(){
-        testInit.dummyInit1();
-        testInit.dummyInit2();
+        testInit.manyDummyData();
     }
 
 
@@ -29,6 +28,32 @@ public class TestDbInit {
     static class TestInit {
         private final MemberService memberService;
         private final MajorService majorService;
+
+        public void manyDummyData(){
+            int i = 1;
+            for(; i < 25; i++){
+                Major major = createMajor("testMajor" + i);
+                majorService.joinMajor(major);
+
+                Member member = createMember("20" + i + "xx", "testName" + i,
+                        3, major, Position.부원, "010-xxxx-xxxx",
+                        StudentStatus.재학, Gender.남, new CountInfo(0, 0, 0));
+                System.out.println("member = " + member.getName());
+
+                memberService.joinMember(member);
+            }
+
+            for(; i <=50 ; i++){
+                Major major = createMajor("testMajor" + i);
+                majorService.joinMajor(major);
+
+                Member member = createMember("20" + i + "xx", "testName" + i,
+                        3, major, Position.부원, "010-xxxx-xxxx",
+                        StudentStatus.재학, Gender.여, new CountInfo(0, 0, 0));
+                memberService.joinMember(member);
+
+            }
+        }
 
         public void dummyInit1(){
             Major major = createMajor("TestMajor1");
@@ -50,14 +75,14 @@ public class TestDbInit {
             memberService.joinMember(member);
         }
 
-        private Member createMember(String studentId, String name, int grade, Major major, Position position, String phoneNumber, StudentStatus studentStatus, Gender gender, CountInfo countInfo) {
+        public Member createMember(String studentId, String name, int grade, Major major, Position position, String phoneNumber, StudentStatus studentStatus, Gender gender, CountInfo countInfo) {
             Member member = new Member();
             member.changeMemberInfo(studentId, name, grade, major);
             member.changeMemberInfoDetails(position, phoneNumber, studentStatus, gender, countInfo);
             return member;
         }
 
-        private Major createMajor(String majorName) {
+        public Major createMajor(String majorName) {
             Major major = new Major();
             major.createBasicMajor(majorName);
             return major;
