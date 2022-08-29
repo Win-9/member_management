@@ -14,11 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberRepository {
-    static int index = 1;
     private final EntityManager em;
 
     public void join(Member member){
-        member.setIndex(index++);
         em.persist(member);
     }
 

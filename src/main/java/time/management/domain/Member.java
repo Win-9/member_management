@@ -21,8 +21,6 @@ public class Member {
     @NotNull
     private String id;
 
-    private int index;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "MAJOR_NAME")
@@ -92,9 +90,5 @@ public class Member {
         this.phoneNumber = phoneNumber;
         this.studentStatus = studentStatus;
         this.gender = gender;
-    }
-
-    public void setIndex(int index){
-        this.index = index;
     }
 }
