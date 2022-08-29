@@ -44,4 +44,11 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
+
+    public List<Member> findPage(int offset, int limit) {
+        return em.createQuery("select m from Member m", Member.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }

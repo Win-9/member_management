@@ -51,4 +51,8 @@ public class MemberService {
         member.changeMemberInfoDetails(memberFormDto.getPosition(), memberFormDto.getPhoneNumber(),
                 memberFormDto.getStudentState(), memberFormDto.getGender());
     }
+
+    public List<Member> findByPage(int offset, int limit) {
+        return memberRepository.findPage(offset, limit);
+    }
 }

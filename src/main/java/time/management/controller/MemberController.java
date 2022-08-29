@@ -3,6 +3,7 @@ package time.management.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -34,13 +35,20 @@ public class MemberController {
      * @return
      */
     @GetMapping("/management/members")
-    public String memberListController(Model model) {
-        List<Member> members = memberService.findAll();
-        model.addAttribute("members", members);
+    public String memberListController(Model model, @RequestParam(defaultValue = "1") int page) {
+//        List<Member> members = memberService.findAll();
+        int realPage = (page - 1) * 10;
+        List<Member> pageMember = memberService.findByPage(realPage, 10);
+        model.addAttribute("members", pageMember);
 
-        for (Member member : members) {
+        int totalSize = memberService.findAll().size();
+
+        model.addAttribute("size", totalSize/10);
+
+
+
+        for (Member member : pageMember) {
             log.info("name = {}", member.getName());
-            log.info("index = {}", member.getIndex());
         }
 
         return "main/members";
@@ -156,7 +164,7 @@ public class MemberController {
 
         memberService.updateMember(findMember, memberFormDto, findMajor);//새로운 major 생성
 
-        return "redirect:/management/modify";
+        return "redirect:/management/modify/{id}";
     }
 
     @GetMapping("/management/attendList")
