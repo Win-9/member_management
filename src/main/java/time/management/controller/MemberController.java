@@ -40,6 +40,7 @@ public class MemberController {
         int realPage = (page - 1) * 10;
         List<Member> pageMember = memberService.findByPage(realPage, 10);
         model.addAttribute("members", pageMember);
+        model.addAttribute("currentPage", page);
 
         int totalSize = memberService.findAll().size();
 
