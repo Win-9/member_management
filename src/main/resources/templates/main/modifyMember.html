@@ -10,7 +10,7 @@
 <div th:replace="fragments/navbar :: fragment-nav"></div>
 
 <div class="jumbotron">
-    <form class="row g-3" th:action="@{/management/modify/{id} (id=*{id})}" method="post" th:object = "${findMember}">
+    <form class="row g-3" method="post" th:object = "${findMember}" th:action="@{/management/modify/{id} (id=*{id})}">
         <div class="mb-3">
             <label for="studentID" class="form-label">학번</label>
             <input type="text" disabled class="form-control" id="studentID" name = "studentID" placeholder="StudentId" th:field = "*{id}">
