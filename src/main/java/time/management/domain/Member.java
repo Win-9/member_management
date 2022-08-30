@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 @ToString(of = {"id", "name", "grade", "studentStatus"})
-
 public class Member {
     @Id
     @Column(name = "STUDENT_ID")
@@ -53,12 +52,6 @@ public class Member {
         }
     }
 
-    public void changeMemberInfo(String id, String name, int grade){
-        this.id = id;
-        this.name = name;
-        this.grade = grade;
-    }
-
     public void changeMemberInfo(String id, String name, int grade, Major major){
         this.id = id;
         this.name = name;
@@ -70,11 +63,6 @@ public class Member {
         this.name = name;
         this.grade = grade;
         changeMajor(major);
-    }
-
-    public void changeMemberInfo(String name, int grade){
-        this.name = name;
-        this.grade = grade;
     }
 
     public void changeMemberInfoDetails(Position position, String phoneNumber, StudentStatus studentStatus, Gender gender, CountInfo countInfo){
@@ -90,5 +78,11 @@ public class Member {
         this.phoneNumber = phoneNumber;
         this.studentStatus = studentStatus;
         this.gender = gender;
+    }
+
+    public void changeCountInfo(int attendCount, int quizCount, int questionCount){
+        this.getCountInfo().setAttendanceCount(attendCount);
+        this.getCountInfo().setQuizCount(quizCount);
+        this.getCountInfo().setQuestionCount(questionCount);
     }
 }
