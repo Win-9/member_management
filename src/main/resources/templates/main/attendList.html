@@ -8,15 +8,29 @@
     .tableDiv{
         padding: 5%;
     }
-    .center{
-        width: 150px;
-        margin: 0 auto;
+    span {cursor:pointer; }
+    .minus, .plus{
+        width:40px;
+        background:#f2f2f2;
+        border-radius:4px;
+        border:1px solid #ddd;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+    }
+    input {
+        width: 70px;
+        text-align: center;
+        font-size: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        display: inline-block;
+        vertical-align: middle;
     }
 </style>
-<body>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<body>
 <div th:replace="fragments/navbar :: fragment-nav"></div>
 <div class="tableDiv">
     <table class="table table-striped">
@@ -32,107 +46,54 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="member : ${members}">
-            <td th:text="${member.index}"></td>
+        <tr th:each="member,index : ${members}">
+            <form method="post" th:action="@{/management/attendList/{id} (id = ${member.id})}">
+            <td th:text="${index.index + 1}"></td>
             <td th:text="${member.name}"></td>
             <td th:text="${member.id}"></td>
             <td>
-                <div class="center">
-                    <div class="input-group">
-                          <span class="input-group-btn">
-                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                  <span class="glyphicon glyphicon-minus"></span>
-                              </button>
-                          </span>
-                    <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="1000">
-                        <span class="input-group-btn">
-                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
-                                  <span class="glyphicon glyphicon-plus"></span>
-                              </button>
-                        </span>
-                     </div>
+                <div class="number">
+                    <span class="minus bi bi-dash">-</span>
+                    <input type="text" name="attendCount" th:value="${member.countInfo.attendanceCount}"/>
+                    <span class="plus bi bi-plus">+</span>
                 </div>
             </td>
             <td>
-                <div class="center">
-                    <div class="input-group">
-                          <span class="input-group-btn">
-                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                  <span class="glyphicon glyphicon-minus"></span>
-                              </button>
-                          </span>
-                        <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="1000">
-                        <span class="input-group-btn">
-                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
-                                  <span class="glyphicon glyphicon-plus"></span>
-                              </button>
-                        </span>
-                    </div>
+                <div class="number">
+                    <span class="minus bi-dash">-</span>
+                    <input type="text" name="quizCount" th:value="${member.countInfo.quizCount}"/>
+                    <span class="plus bi-plus">+</span>
                 </div>
             </td>
             <td>
-                <div class="center">
-                    <div class="input-group">
-                          <span class="input-group-btn">
-                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                  <span class="glyphicon glyphicon-minus"></span>
-                              </button>
-                          </span>
-                        <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="1000">
-                        <span class="input-group-btn">
-                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
-                                  <span class="glyphicon glyphicon-plus"></span>
-                              </button>
-                        </span>
-                    </div>
+                <div class="number">
+                    <span class="minus bi-dash">-</span>
+                    <input type="text" name="questionCount" th:value="${member.countInfo.questionCount}">
+                    <span class="plus bi bi-plus">+</span>
                 </div>
             </td>
-            <th><a type="button" class="btn btn-danger" th:href="@{/management/modify/{id} (id=${member.id})}">수정</a></th>
+            <th><button type="submit" class="btn btn-primary modify-btn">저장</button></th>
+            </form>
         </tr>
         </tbody>
     </table>
 </div>
 <script>
-    $('.btn-number').click(function(e){
-        e.preventDefault();
-
-        fieldName = $(this).attr('data-field');
-        type      = $(this).attr('data-type');
-        var input = $("input[name='"+fieldName+"']");
-        var currentVal = parseInt(input.val());
-        if (!isNaN(currentVal)) {
-            if(type == 'minus') {
-                input.val(currentVal - 1).change();
-
-            } else if(type == 'plus') {
-                input.val(currentVal + 1).change();
-            }
-        } else {
-            input.val(0);
-        }
-    });
-    $('.input-number').focusin(function(){
-        $(this).data('oldValue', $(this).val());
-    });
-    $('.input-number').change(function() {
-
-        minValue =  parseInt($(this).attr('min'));
-        maxValue =  parseInt($(this).attr('max'));
-        valueCurrent = parseInt($(this).val());
-
-        name = $(this).attr('name');
-        if(valueCurrent >= minValue) {
-            $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
-        } else {
-            alert('Sorry, the minimum value was reached');
-            $(this).val($(this).data('oldValue'));
-        }
-        if(valueCurrent <= maxValue) {
-            $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
-        } else {
-            alert('Sorry, the maximum value was reached');
-            $(this).val($(this).data('oldValue'));
-        }
+    $(document).ready(function() {
+        $('.minus').click(function () {
+            var $input = $(this).parent().find('input');
+            var count = parseInt($input.val()) - 1;
+            count = count < 0 ? 0 : count;
+            $input.val(count);
+            $input.change();
+            return false;
+        });
+        $('.plus').click(function () {
+            var $input = $(this).parent().find('input');
+            $input.val(parseInt($input.val()) + 1);
+            $input.change();
+            return false;
+        });
     });
 </script>
 </body>

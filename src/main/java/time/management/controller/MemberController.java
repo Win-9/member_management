@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import time.management.domain.*;
+import time.management.dto.MemberAttendCountDto;
 import time.management.dto.MemberFormDto;
 import time.management.service.MajorService;
 import time.management.service.MemberService;
@@ -44,8 +45,7 @@ public class MemberController {
 
         int totalSize = memberService.findAll().size();
 
-        model.addAttribute("size", totalSize/10);
-
+        model.addAttribute("size", totalSize / 10);
 
 
         for (Member member : pageMember) {
@@ -119,29 +119,17 @@ public class MemberController {
     /**
      * modifyMember Get
      *
-     * @param model
-     * @return
-     */
-    @GetMapping("/management/modify")
-    public String modifyController(Model model) {
-        List<Member> members = memberService.findAll();
-        model.addAttribute("members", members);
-
-        return "main/modifyMemberList";
-    }
-
-    /**
-     * modifyMember Get
-     *
      * @param id
      * @param model
      * @return
      */
     @GetMapping("/management/modify/{id}")
     public String modifyMemberController(@PathVariable String id, Model model) {
-        log.info("modifyMemberController");
+        log.info("studentID = {}", id);
 
         Member findMember = memberService.findByMemberId(id);
+        log.info("findMember = {}", findMember.getId());
+
         model.addAttribute("findMember", findMember);
         model.addAttribute("genders", Gender.values());
         model.addAttribute("studentStatuses", StudentStatus.values());
@@ -150,6 +138,13 @@ public class MemberController {
         return "main/modifyMember";
     }
 
+    /**
+     * modifyMember Post
+     *
+     * @param id
+     * @param memberFormDto
+     * @return
+     */
     @Transactional
     @PostMapping("/management/modify/{id}")
     public String modifyMemberFormController(@PathVariable String id, @ModelAttribute MemberFormDto memberFormDto) {
@@ -169,7 +164,7 @@ public class MemberController {
     }
 
     @GetMapping("/management/attendList")
-    public String memberAttendListController(Model model){
+    public String memberAttendListController(Model model) {
 
         List<Member> members = memberService.findAll();
         model.addAttribute("members", members);
@@ -184,5 +179,22 @@ public class MemberController {
         memberService.deleteMember(findMember);
 
         return "redirect:/management/members";
+    }
+
+    @Transactional
+    @PostMapping("/management/attendList/{id}")
+    public String memberAttendListModifyForm (@PathVariable String id, @ModelAttribute MemberAttendCountDto memberAttendCountDto){
+        log.info("memberAttendListModifyForm");
+
+        Member findMember = memberService.findByMemberId(id);
+        log.info("memberID = {}", findMember.getId());
+
+        findMember.changeCountInfo(memberAttendCountDto.getAttendCount(),
+                memberAttendCountDto.getQuizCount(), memberAttendCountDto.getQuestionCount());
+
+        log.info("after change = {}", findMember.getCountInfo().getAttendanceCount());
+
+
+        return "redirect:/management/attendList";
     }
 }
