@@ -7,6 +7,7 @@
     }
     .tableDiv{
         padding: 5%;
+        min-height: 572px;
     }
     span {cursor:pointer; }
     .minus, .plus{
@@ -78,6 +79,25 @@
         </tbody>
     </table>
 </div>
+
+<!--페이지네이션-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link">Previous</a>
+        </li>
+
+        <li class="page-item" th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
+            <a class="page-link" th:href="@{/management/attendList?page={page} (page = ${pageStat.count})}"
+               th:text="${pageStat.index + 1}"/>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link">Next</a>
+        </li>
+    </ul>
+</nav>
+
 <script>
     $(document).ready(function() {
         $('.minus').click(function () {
