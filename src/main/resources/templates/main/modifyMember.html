@@ -10,7 +10,7 @@
 <div th:replace="fragments/navbar :: fragment-nav"></div>
 
 <div class="jumbotron">
-    <form class="row g-3" method="post" th:object = "${findMember}" th:action="@{/management/modify/{id} (id=*{id})}">
+    <form class="row g-3"  method="post" th:object = "${findMember}" th:action="@{/management/modify/{id} (id=*{id})}">
         <div class="mb-3">
             <label for="studentID" class="form-label">학번</label>
             <input type="text" disabled class="form-control" id="studentID" name = "studentID" placeholder="StudentId" th:field = "*{id}">
@@ -56,7 +56,7 @@
         <!--버튼-->
 
         <div class="col-md-1">
-            <button type="submit" class="btn btn-primary modify-btn">수정</button>
+            <button type="submit" class="btn btn-primary">수정</button>
         </div>
 
         <div class="col-md-1">
@@ -64,29 +64,5 @@
         </div>
     </form>
 </div>
-
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="...">
-            <strong class="me-auto">Bootstrap</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            수정되었습니다.
-        </div>
-    </div>
-</div>
 </body>
-<script>
-    var toastTrigger = document.getElementById('modify-btn')
-    var toastLiveExample = document.getElementById('liveToast')
-    if (toastTrigger) {
-        toastTrigger.addEventListener('click', function () {
-            var toast = new bootstrap.Toast(toastLiveExample)
-
-            toast.show()
-        })
-    }
-</script>
 </html>
