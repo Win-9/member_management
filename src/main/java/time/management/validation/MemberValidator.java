@@ -37,7 +37,7 @@ public class MemberValidator implements Validator {
 
         //grade valid
         if (memberFormDto.getGrade() == null){
-            errors.rejectValue("grade", "required","이름 입력은 필수 입니다.");
+            errors.rejectValue("grade", "required","학년 입력은 필수 입니다.");
         }
 
         //phone valid
