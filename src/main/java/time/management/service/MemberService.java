@@ -55,4 +55,9 @@ public class MemberService {
     public List<Member> findByPage(int offset, int limit) {
         return memberRepository.findPage(offset, limit);
     }
+
+    @Transactional
+    public void updateMemberCountInfo(Member member , int attendCount, int quizCount, int questionCount) {
+        member.changeCountInfo(attendCount, quizCount, questionCount);
+    }
 }
