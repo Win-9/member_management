@@ -38,14 +38,19 @@ public class MemberController {
     @GetMapping("/management/members")
     public String memberListController(Model model, @RequestParam(defaultValue = "1") int page) {
 //        List<Member> members = memberService.findAll();
+
+        int totalSize = memberService.findAll().size();//52
+        if (totalSize % 10 != 0) {// 일의자리가 남아있으면
+            totalSize += 10;
+        }
+
+        model.addAttribute("size", totalSize / 10);
+
         int realPage = (page - 1) * 10;
         List<Member> pageMember = memberService.findByPage(realPage, 10);
         model.addAttribute("members", pageMember);
         model.addAttribute("currentPage", page);
-
-        int totalSize = memberService.findAll().size();
-
-        model.addAttribute("size", totalSize / 10);
+        model.addAttribute("totalMember", memberService.findAll().size());
 
 
         for (Member member : pageMember) {
@@ -145,7 +150,6 @@ public class MemberController {
      * @param memberFormDto
      * @return
      */
-    @Transactional
     @PostMapping("/management/modify/{id}")
     public String modifyMemberFormController(@PathVariable String id, @ModelAttribute MemberFormDto memberFormDto) {
         Member findMember = memberService.findByMemberId(id);
@@ -164,10 +168,28 @@ public class MemberController {
     }
 
     @GetMapping("/management/attendList")
-    public String memberAttendListController(Model model) {
+    public String memberAttendListController(@RequestParam(defaultValue = "1") int page, Model model) {
 
-        List<Member> members = memberService.findAll();
-        model.addAttribute("members", members);
+        log.info("page = {}", page);
+
+        //페이지네이션
+        int totalSize = memberService.findAll().size();//52
+        if (totalSize % 10 != 0) {// 일의자리가 남아있으면
+            totalSize += 10;
+        }
+
+        model.addAttribute("size", totalSize / 10);
+
+        int realPage = (page - 1) * 10;
+        List<Member> pageMember = memberService.findByPage(realPage, 10);
+        model.addAttribute("members", pageMember);
+        model.addAttribute("currentPage", page);
+        //여기까지
+
+        for (Member member : pageMember) {
+            log.info("name = {}", member.getName());
+        }
+
 
         return "main/attendList";
     }
@@ -181,19 +203,14 @@ public class MemberController {
         return "redirect:/management/members";
     }
 
-    @Transactional
     @PostMapping("/management/attendList/{id}")
     public String memberAttendListModifyForm (@PathVariable String id, @ModelAttribute MemberAttendCountDto memberAttendCountDto){
         log.info("memberAttendListModifyForm");
 
         Member findMember = memberService.findByMemberId(id);
-        log.info("memberID = {}", findMember.getId());
 
-        findMember.changeCountInfo(memberAttendCountDto.getAttendCount(),
+        memberService.updateMemberCountInfo(findMember, memberAttendCountDto.getAttendCount(),
                 memberAttendCountDto.getQuizCount(), memberAttendCountDto.getQuestionCount());
-
-        log.info("after change = {}", findMember.getCountInfo().getAttendanceCount());
-
 
         return "redirect:/management/attendList";
     }

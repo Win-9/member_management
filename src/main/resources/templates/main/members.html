@@ -8,6 +8,7 @@
     }
     .tableDiv{
         padding: 5%;
+        min-height: 572px;
     }
 
 </style>
@@ -22,6 +23,7 @@
             <th scope="col">Position</th>
             <th scope="col">Major</th>
             <th scope="col">ID</th>
+            <th scope="col" th:text="'총 ' + ${totalMember} + '명'"></th>
         </tr>
         </thead>
         <tbody>
@@ -31,6 +33,7 @@
             <td th:text="${member.position}"></td>
             <td th:text="${member.major.name}"></td>
             <td th:text="${member.id}"></td>
+            <td></td>
         </tr>
         </tbody>
     </table>
