@@ -167,6 +167,12 @@ public class MemberController {
         return "redirect:/management/modify/{id}";
     }
 
+    /**
+     * attendList Get
+     * @param page
+     * @param model
+     * @return
+     */
     @GetMapping("/management/attendList")
     public String memberAttendListController(@RequestParam(defaultValue = "1") int page, Model model) {
 
@@ -194,15 +200,12 @@ public class MemberController {
         return "main/attendList";
     }
 
-    @GetMapping("/management/delete/{id}")
-    public String deleteMemberController(@PathVariable String id) {
-        log.info("deleteMemberController");
-        Member findMember = memberService.findByMemberId(id);
-        memberService.deleteMember(findMember);
-
-        return "redirect:/management/members";
-    }
-
+    /**
+     * attendList Post
+     * @param id
+     * @param memberAttendCountDto
+     * @return
+     */
     @PostMapping("/management/attendList/{id}")
     public String memberAttendListModifyForm (@PathVariable String id, @ModelAttribute MemberAttendCountDto memberAttendCountDto){
         log.info("memberAttendListModifyForm");
@@ -213,5 +216,19 @@ public class MemberController {
                 memberAttendCountDto.getQuizCount(), memberAttendCountDto.getQuestionCount());
 
         return "redirect:/management/attendList";
+    }
+
+    /**
+     * delete
+     * @param id
+     * @return
+     */
+    @GetMapping("/management/delete/{id}")
+    public String deleteMemberController(@PathVariable String id) {
+        log.info("deleteMemberController");
+        Member findMember = memberService.findByMemberId(id);
+        memberService.deleteMember(findMember);
+
+        return "redirect:/management/members";
     }
 }
