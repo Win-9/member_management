@@ -15,6 +15,47 @@
 <body>
 <div th:replace="fragments/navbar :: fragment-nav"></div>
 <div class="tableDiv">
+
+    <!--검색-->
+    <form class="row gx-3 gy-2 align-items-center" th:object="${memberSearch}">
+<!--        <div class="col-sm-3">-->
+<!--            <div class="input-group">-->
+<!--                <div class="input-group-text">정렬기준</div>-->
+<!--                <select class="form-select" name="order" id="specificSizeInputGroupUsername">-->
+<!--                    <option selected>Choose...</option>-->
+<!--                    <option value="grade">학번순</option>-->
+<!--                    <option value="2">이름순</option>-->
+<!--                    <option value="3">학년순</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="col-sm-3">
+            <div class="input-group">
+                <div class="input-group-text">학년</div>
+                <input type="text" class="form-control" placeholder="grade">
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="input-group">
+                <div class="input-group-text">학번</div>
+                <input type="text" class="form-control" placeholder="studentID">
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="input-group">
+                <div class="input-group-text">전공</div>
+                <input type="text" class="form-control" placeholder="major">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
     <table class="table table-striped">
         <thead>
         <tr>
