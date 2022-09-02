@@ -43,8 +43,8 @@
 <!--페이지네이션-->
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a class="page-link">Previous</a>
+        <li class="page-item" th:classappend="${currentPage} == '1' ? 'disabled'">
+            <a class="page-link" th:href="@{/management/members?page={page} (page = ${currentPage} - 1)}">Previous</a>
         </li>
 
         <li class="page-item" th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
@@ -52,8 +52,8 @@
                th:text="${pageStat.index + 1}"/>
         </li>
 
-        <li class="page-item">
-            <a class="page-link">Next</a>
+        <li class="page-item" th:classappend="${currentPage} == ${size} ? 'disabled'">
+            <a class="page-link" th:href="@{/management/members?page={page} (page = ${currentPage} + 1)}">Next</a>
         </li>
     </ul>
 </nav>
