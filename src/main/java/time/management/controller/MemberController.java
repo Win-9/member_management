@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import time.management.domain.*;
 import time.management.dto.MemberAttendCountDto;
 import time.management.dto.MemberFormDto;
+import time.management.dto.MemberSearchDto;
 import time.management.service.MajorService;
 import time.management.service.MemberService;
 import time.management.validation.MemberValidator;
@@ -36,10 +37,18 @@ public class MemberController {
      * @return
      */
     @GetMapping("/management/members")
-    public String memberListController(Model model, @RequestParam(defaultValue = "1") int page) {
-//        List<Member> members = memberService.findAll();
+    public String memberListController(@ModelAttribute("memberSearch")MemberSearchDto memberSearchDto,
+                                       Model model, @RequestParam(defaultValue = "1") int page) {
 
-        int totalSize = memberService.findAll().size();//52
+        log.info("grade = {}", memberSearchDto.getGrade());
+        log.info("major = {}", memberSearchDto.getMajor());
+        log.info("student = {}", memberSearchDto.getStudentID());
+
+
+        List<Member> findResultMember = memberService.findManyQualification(memberSearchDto);
+
+        //페이징
+        int totalSize = findResultMember.size();
         if (totalSize % 10 != 0) {// 일의자리가 남아있으면
             totalSize += 10;
         }
@@ -50,7 +59,7 @@ public class MemberController {
         List<Member> pageMember = memberService.findByPage(realPage, 10);
         model.addAttribute("members", pageMember);
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalMember", memberService.findAll().size());
+        model.addAttribute("totalMember", findResultMember.size());
 
 
         for (Member member : pageMember) {
@@ -59,6 +68,8 @@ public class MemberController {
 
         return "main/members";
     }
+
+
 
     /**
      * addMember Get

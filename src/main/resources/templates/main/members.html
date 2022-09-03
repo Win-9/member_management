@@ -33,21 +33,21 @@
         <div class="col-sm-3">
             <div class="input-group">
                 <div class="input-group-text">학년</div>
-                <input type="text" class="form-control" placeholder="grade">
+                <input type="text" class="form-control" th:field="${memberSearch.grade}" placeholder="grade">
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="input-group">
                 <div class="input-group-text">학번</div>
-                <input type="text" class="form-control" placeholder="studentID">
+                <input type="text" class="form-control" th:field="${memberSearch.studentID}" placeholder="studentID">
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="input-group">
                 <div class="input-group-text">전공</div>
-                <input type="text" class="form-control" placeholder="major">
+                <input type="text" class="form-control" th:field="${memberSearch.major}" placeholder="major">
             </div>
         </div>
 
