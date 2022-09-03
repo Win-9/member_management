@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import time.management.domain.Major;
 import time.management.domain.Member;
 import time.management.dto.MemberFormDto;
+import time.management.dto.MemberSearchDto;
 import time.management.repository.MemberRepository;
 
 import java.util.List;
@@ -59,5 +60,9 @@ public class MemberService {
     @Transactional
     public void updateMemberCountInfo(Member member , int attendCount, int quizCount, int questionCount) {
         member.changeCountInfo(attendCount, quizCount, questionCount);
+    }
+
+    public List<Member> findManyQualification(MemberSearchDto memberSearchDto) {
+        return memberRepository.findManyQualification(memberSearchDto);
     }
 }
