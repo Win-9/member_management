@@ -21,8 +21,9 @@
         <div class="col-sm-2">
             <div class="input-group">
                 <div class="input-group-text">직책</div>
-                <select th:value="${memberSearch.position}" class="form-select" name="position" id="specificSizeInputGroupUsername">
+                <select th:field="*{position}" class="form-select" name="position" id="specificSizeInputGroupUsername">
                     <option th:each="position : ${T(time.management.domain.Position).values()}"
+                            th:value="${position}"
                             th:text="${position}"></option>
                 </select>
             </div>
