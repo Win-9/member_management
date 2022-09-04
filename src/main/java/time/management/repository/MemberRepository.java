@@ -55,7 +55,7 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public List<Member> findManyQualification (MemberSearchDto memberSearchDto) {
+    public List<Member> findManyQualificationWithPage (MemberSearchDto memberSearchDto, int offset, int limit) {
 
         String jpql = "select m from Member m join m.major j ";
         boolean flag = true;
@@ -69,7 +69,6 @@ public class MemberRepository {
         }
 
         if (StringUtils.hasText(memberSearchDto.getMajor())) {
-
             if (flag) {
                 jpql += "where ";
                 flag = false;
@@ -81,7 +80,6 @@ public class MemberRepository {
         }
 
         if (StringUtils.hasText(memberSearchDto.getStudentID())) {
-
             if (flag) {
                 jpql += "where ";
                 flag = false;
@@ -96,6 +94,7 @@ public class MemberRepository {
 
         TypedQuery<Member> memberQuery = em.createQuery(jpql, Member.class);
 
+
         if (memberSearchDto.getGrade() != null) {
             memberQuery.setParameter("grade", memberSearchDto.getGrade());
         }
@@ -107,7 +106,10 @@ public class MemberRepository {
             memberQuery.setParameter("id", memberSearchDto.getStudentID());
         }
 
-        return memberQuery.getResultList();
+        return memberQuery
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
 
     }
 }

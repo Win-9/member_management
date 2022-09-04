@@ -45,24 +45,27 @@ public class MemberController {
         log.info("student = {}", memberSearchDto.getStudentID());
 
 
-        List<Member> findResultMember = memberService.findManyQualification(memberSearchDto);
+        List<Member> allMembers = memberService.findAll();
 
         //페이징
-        int totalSize = findResultMember.size();
+        int totalSize = allMembers.size();
+        log.info("size = {}", totalSize);
         if (totalSize % 10 != 0) {// 일의자리가 남아있으면
             totalSize += 10;
         }
 
+
         model.addAttribute("size", totalSize / 10);
 
         int realPage = (page - 1) * 10;
-        List<Member> pageMember = memberService.findByPage(realPage, 10);
-        model.addAttribute("members", pageMember);
+        List<Member> findResultMembers = memberService.findByManyQualificationWithPaging(memberSearchDto, realPage, 10);
+
+        model.addAttribute("members", findResultMembers);
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalMember", findResultMember.size());
+        model.addAttribute("totalMember", findResultMembers.size());
 
 
-        for (Member member : pageMember) {
+        for (Member member : findResultMembers) {
             log.info("name = {}", member.getName());
         }
 

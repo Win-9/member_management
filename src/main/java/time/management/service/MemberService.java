@@ -62,7 +62,7 @@ public class MemberService {
         member.changeCountInfo(attendCount, quizCount, questionCount);
     }
 
-    public List<Member> findManyQualification(MemberSearchDto memberSearchDto) {
-        return memberRepository.findManyQualification(memberSearchDto);
+    public List<Member> findByManyQualificationWithPaging(MemberSearchDto memberSearchDto, int offset, int limit) {
+        return memberRepository.findManyQualificationWithPage(memberSearchDto, offset, limit);
     }
 }
