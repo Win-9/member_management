@@ -36,7 +36,7 @@ public class TestDbInit {
                 majorService.joinMajor(major);
 
                 Member member = createMember("20" + i + "xx", "testName" + i,
-                        3, major, Position.부원, "010-xxxx-xxxx",
+                        2, major, Position.부원, "010-xxxx-xxxx",
                         StudentStatus.재학, Gender.남, new CountInfo(0, 0, 0));
                 System.out.println("member = " + member.getName());
 
