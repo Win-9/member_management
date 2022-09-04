@@ -60,6 +60,7 @@ public class MemberRepository {
         String jpql = "select m from Member m join m.major j ";
         boolean flag = true;
 
+        //학년
         if (memberSearchDto.getGrade() != null) {
             if (flag) {
                 jpql += "where ";
@@ -68,6 +69,7 @@ public class MemberRepository {
             jpql += "m.grade =: grade ";
         }
 
+        // 전공
         if (StringUtils.hasText(memberSearchDto.getMajor())) {
             if (flag) {
                 jpql += "where ";
@@ -79,6 +81,31 @@ public class MemberRepository {
             jpql += "j.name =: major ";
         }
 
+        // 잭책
+        if (memberSearchDto.getPosition() != null) {
+            if (flag) {
+                jpql += "where ";
+                flag = false;
+            }else{
+                jpql += "and ";
+            }
+
+            jpql += "m.position =: position ";
+        }
+
+        //이름
+        if (StringUtils.hasText(memberSearchDto.getName())) {
+            if (flag) {
+                jpql += "where ";
+                flag = false;
+            }else{
+                jpql += "and ";
+            }
+
+            jpql += "m.name =: name ";
+        }
+
+        // 학번
         if (StringUtils.hasText(memberSearchDto.getStudentID())) {
             if (flag) {
                 jpql += "where ";
@@ -101,7 +128,12 @@ public class MemberRepository {
         if (StringUtils.hasText(memberSearchDto.getMajor())) {
             memberQuery.setParameter("major", memberSearchDto.getMajor());
         }
-
+        if (StringUtils.hasText(memberSearchDto.getName())) {
+            memberQuery.setParameter("name", memberSearchDto.getName());
+        }
+        if (memberSearchDto.getPosition() != null) {
+            memberQuery.setParameter("position", memberSearchDto.getPosition());
+        }
         if (StringUtils.hasText(memberSearchDto.getStudentID())) {
             memberQuery.setParameter("id", memberSearchDto.getStudentID());
         }
@@ -110,6 +142,5 @@ public class MemberRepository {
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
-
     }
 }

@@ -18,33 +18,38 @@
 
     <!--검색-->
     <form class="row gx-3 gy-2 align-items-center" th:object="${memberSearch}">
-<!--        <div class="col-sm-3">-->
-<!--            <div class="input-group">-->
-<!--                <div class="input-group-text">정렬기준</div>-->
-<!--                <select class="form-select" name="order" id="specificSizeInputGroupUsername">-->
-<!--                    <option selected>Choose...</option>-->
-<!--                    <option value="grade">학번순</option>-->
-<!--                    <option value="2">이름순</option>-->
-<!--                    <option value="3">학년순</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="col-sm-2">
+            <div class="input-group">
+                <div class="input-group-text">직책</div>
+                <select th:value="${memberSearch.position}" class="form-select" name="position" id="specificSizeInputGroupUsername">
+                    <option th:each="position : ${T(time.management.domain.Position).values()}"
+                            th:text="${position}"></option>
+                </select>
+            </div>
+        </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="input-group">
                 <div class="input-group-text">학년</div>
                 <input type="text" class="form-control" th:field="${memberSearch.grade}" placeholder="grade">
             </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-2">
+            <div class="input-group">
+                <div class="input-group-text">이름</div>
+                <input type="text" class="form-control" th:field="${memberSearch.name}" placeholder="grade">
+            </div>
+        </div>
+
+        <div class="col-sm-2">
             <div class="input-group">
                 <div class="input-group-text">학번</div>
                 <input type="text" class="form-control" th:field="${memberSearch.studentID}" placeholder="studentID">
             </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="input-group">
                 <div class="input-group-text">전공</div>
                 <input type="text" class="form-control" th:field="${memberSearch.major}" placeholder="major">
@@ -52,7 +57,7 @@
         </div>
 
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">search</button>
         </div>
     </form>
 
@@ -89,7 +94,8 @@
         </li>
 
         <li class="page-item" th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
-            <a class="page-link" th:href="@{/management/members?page={page} (page = ${pageStat.count})}"
+            <a class="page-link"
+               th:href="@{/management/members?page={page} (page = ${pageStat.count})}"
                th:text="${pageStat.index + 1}"/>
         </li>
 

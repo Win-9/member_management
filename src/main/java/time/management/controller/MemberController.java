@@ -43,6 +43,7 @@ public class MemberController {
         log.info("grade = {}", memberSearchDto.getGrade());
         log.info("major = {}", memberSearchDto.getMajor());
         log.info("student = {}", memberSearchDto.getStudentID());
+        log.info("position = {}", memberSearchDto.getPosition());
 
 
         List<Member> allMembers = memberService.findAll();
