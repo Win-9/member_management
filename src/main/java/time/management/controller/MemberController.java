@@ -51,12 +51,14 @@ public class MemberController {
 
 
         //페이징
-        int realPage = (page - 1) * 10;
-        List<Member> findResultMembers = memberService.findByManyQualificationWithPaging(memberSearchDto, realPage, 10);
+        int offset = (page - 1) * 10;
+        List<Member> findResultMembers = memberService.findByManyQualificationWithPaging(memberSearchDto, offset, 10);
+        int totalSize = memberService.findByManyQualificationTotalCount(memberSearchDto);
+        model.addAttribute("totalMember", totalSize);//검색쿼리의 총 size
 
-        int totalSize = allMembers.size();
         log.info("size = {}", totalSize);
-        if (totalSize % 10 != 0) {// 일의자리가 남아있으면
+
+        if (totalSize % 10 != 0) {// 페이징을 위한 가공
             totalSize += 10;
         }
 
@@ -67,7 +69,6 @@ public class MemberController {
         model.addAttribute("queryMember", memberSearchDto);
         model.addAttribute("members", findResultMembers);
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalMember", findResultMembers.size());
 
 
         for (Member member : findResultMembers) {
