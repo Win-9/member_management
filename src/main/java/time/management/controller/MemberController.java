@@ -39,6 +39,7 @@ public class MemberController {
     @GetMapping("/management/members")
     public String memberListController(@ModelAttribute("memberSearch")MemberSearchDto memberSearchDto,
                                        Model model, @RequestParam(defaultValue = "1") int page) {
+        log.info("=============== page = {} ==================", page);
 
         log.info("grade = {}", memberSearchDto.getGrade());
         log.info("major = {}", memberSearchDto.getMajor());
@@ -48,7 +49,11 @@ public class MemberController {
 
         List<Member> allMembers = memberService.findAll();
 
+
         //페이징
+        int realPage = (page - 1) * 10;
+        List<Member> findResultMembers = memberService.findByManyQualificationWithPaging(memberSearchDto, realPage, 10);
+
         int totalSize = allMembers.size();
         log.info("size = {}", totalSize);
         if (totalSize % 10 != 0) {// 일의자리가 남아있으면
@@ -58,9 +63,8 @@ public class MemberController {
 
         model.addAttribute("size", totalSize / 10);
 
-        int realPage = (page - 1) * 10;
-        List<Member> findResultMembers = memberService.findByManyQualificationWithPaging(memberSearchDto, realPage, 10);
 
+        model.addAttribute("queryMember", memberSearchDto);
         model.addAttribute("members", findResultMembers);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalMember", findResultMembers.size());

@@ -17,7 +17,7 @@
 <div class="tableDiv">
 
     <!--검색-->
-    <form class="row gx-3 gy-2 align-items-center" th:object="${memberSearch}">
+    <form class="row gx-3 gy-2 align-items-center" th:object="${memberSearch}" method="get">
         <div class="col-sm-2">
             <div class="input-group">
                 <div class="input-group-text">직책</div>
@@ -75,7 +75,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="member,index : ${members}" th:onclick="|location.href='@{/management/modify/{id} (id=*{member.id})}'|">
+        <tr th:each="member,index : ${members}" th:onclick="|location.href='@{modify/{id} (id=*{member.id})}'|">
             <td th:text="${index.index + 1}"></td>
             <td th:text="${member.name}"></td>
             <td th:text="${member.id}"></td>
@@ -96,7 +96,8 @@
 
         <li class="page-item" th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
             <a class="page-link"
-               th:href="@{/management/members?page={page} (page = ${pageStat.count})}"
+               th:href="@{?grade={grade}&major={major}&position={position}&name={name}&id={id}&page={page}
+                (grade = ${queryMember.grade}, major = ${queryMember.major}, position = ${queryMember.position}, name = ${queryMember.name}, id = ${queryMember.studentID}, page = ${pageStat.count})}"
                th:text="${pageStat.index + 1}"/>
         </li>
 
