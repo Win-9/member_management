@@ -10,6 +10,7 @@ import time.management.dto.MemberFormDto;
 import time.management.dto.MemberSearchDto;
 import time.management.repository.MemberRepository;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Service
@@ -63,6 +64,16 @@ public class MemberService {
     }
 
     public List<Member> findByManyQualificationWithPaging(MemberSearchDto memberSearchDto, int offset, int limit) {
-        return memberRepository.findManyQualificationWithPage(memberSearchDto, offset, limit);
+        TypedQuery<Member> memberQuery = memberRepository.findManyQualification(memberSearchDto);
+        return memberQuery
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    public int findByManyQualificationTotalCount(MemberSearchDto memberSearchDto){
+        TypedQuery<Member> memberQuery = memberRepository.findManyQualification(memberSearchDto);
+
+        return memberQuery.getResultList().size();
     }
 }

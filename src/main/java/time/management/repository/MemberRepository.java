@@ -55,7 +55,7 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public List<Member> findManyQualificationWithPage (MemberSearchDto memberSearchDto, int offset, int limit) {
+    public TypedQuery<Member> findManyQualification (MemberSearchDto memberSearchDto) {
 
         String jpql = "select m from Member m join m.major j ";
         boolean flag = true;
@@ -138,9 +138,6 @@ public class MemberRepository {
             memberQuery.setParameter("id", memberSearchDto.getStudentID());
         }
 
-        return memberQuery
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
+        return memberQuery;
     }
 }
