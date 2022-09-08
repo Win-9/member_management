@@ -33,7 +33,32 @@
 
 <body>
 <div th:replace="fragments/navbar :: fragment-nav"></div>
+
 <div class="tableDiv">
+
+
+    <!--검색-->
+    <form class="row gx-3 gy-2 align-items-center" th:object="${memberAttend}" method="get">
+
+        <div class="col-sm-2">
+            <div class="input-group">
+                <div class="input-group-text">이름</div>
+                <input type="text" class="form-control" th:field="${memberAttend.name}" placeholder="name">
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="input-group">
+                <div class="input-group-text">학번</div>
+                <input type="text" class="form-control" th:field="${memberAttend.studentID}" placeholder="ID">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">search</button>
+        </div>
+    </form>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -88,7 +113,8 @@
         </li>
 
         <li class="page-item" th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
-            <a class="page-link" th:href="@{/management/attendList?page={page} (page = ${pageStat.count})}"
+            <a class="page-link"
+               th:href="@{?name={name}&id={id}&page={page} (name=${memberAttend.name}, id=${memberAttend.studentID} ,page = ${pageStat.count})}"
                th:text="${pageStat.index + 1}"/>
         </li>
 

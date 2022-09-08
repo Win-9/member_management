@@ -3,16 +3,13 @@ package time.management.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import time.management.domain.*;
 import time.management.dto.MemberAttendCountDto;
+import time.management.dto.MemberAttendSearchDto;
 import time.management.dto.MemberFormDto;
 import time.management.dto.MemberSearchDto;
 import time.management.service.MajorService;
@@ -51,8 +48,8 @@ public class MemberController {
 
         //페이징
         int offset = (page - 1) * 10;
-        List<Member> findResultMembers = memberService.findByManyQualificationWithPaging(memberSearchDto, offset, 10);
-        int totalSize = memberService.findByManyQualificationTotalCount(memberSearchDto);
+        List<Member> findResultMembers = memberService.findByManyQualificationMemberListWithPaging(memberSearchDto, offset, 10);
+        int totalSize = memberService.findByManyQualificationMemberListTotalCount(memberSearchDto);
         model.addAttribute("totalMember", totalSize);//검색쿼리의 총 size
 
         log.info("size = {}", totalSize);
@@ -193,25 +190,30 @@ public class MemberController {
      * @return
      */
     @GetMapping("/management/attendList")
-    public String memberAttendListController(@RequestParam(defaultValue = "1") int page, Model model) {
+    public String memberAttendListController(@ModelAttribute("memberAttend") MemberAttendSearchDto memberAttendSearchDto,
+                                             @RequestParam(defaultValue = "1") int page, Model model) {
 
-        log.info("page = {}", page);
+        log.info("=============== page = {} ==================", page);
+
+        log.info("name = {}", memberAttendSearchDto.getName());
+        log.info("student = {}", memberAttendSearchDto.getStudentID());
 
         //페이지네이션
-        int totalSize = memberService.findAll().size();//52
+        int totalSize = memberService.findByManyQualificationMemberAttendTotalCount(memberAttendSearchDto);
         if (totalSize % 10 != 0) {// 일의자리가 남아있으면
             totalSize += 10;
         }
 
         model.addAttribute("size", totalSize / 10);
 
-        int realPage = (page - 1) * 10;
-        List<Member> pageMember = memberService.findByPage(realPage, 10);
-        model.addAttribute("members", pageMember);
+        int offset = (page - 1) * 10;
+        List<Member> findMembers = memberService.findByManyQualificationMemberAttendWithPaging(memberAttendSearchDto, offset, 10);
+
+        model.addAttribute("members", findMembers);
         model.addAttribute("currentPage", page);
         //여기까지
 
-        for (Member member : pageMember) {
+        for (Member member : findMembers) {
             log.info("name = {}", member.getName());
         }
 
