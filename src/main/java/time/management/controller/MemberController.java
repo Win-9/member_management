@@ -47,7 +47,6 @@ public class MemberController {
         log.info("position = {}", memberSearchDto.getPosition());
 
 
-        List<Member> allMembers = memberService.findAll();
 
 
         //페이징

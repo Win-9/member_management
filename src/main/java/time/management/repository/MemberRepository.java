@@ -78,7 +78,7 @@ public class MemberRepository {
                 jpql += "and ";
             }
 
-            jpql += "j.name =: major ";
+            jpql += "j.name like :major ";
         }
 
         // 잭책
@@ -102,7 +102,7 @@ public class MemberRepository {
                 jpql += "and ";
             }
 
-            jpql += "m.name =: name ";
+            jpql += "m.name like :name ";
         }
 
         // 학번
@@ -114,7 +114,7 @@ public class MemberRepository {
                 jpql += "and ";
             }
 
-            jpql += "m.id =: id";
+            jpql += "m.id like :id";
         }
 
         log.info("query = {}", jpql);
@@ -126,16 +126,16 @@ public class MemberRepository {
             memberQuery.setParameter("grade", memberSearchDto.getGrade());
         }
         if (StringUtils.hasText(memberSearchDto.getMajor())) {
-            memberQuery.setParameter("major", memberSearchDto.getMajor());
+            memberQuery.setParameter("major", memberSearchDto.getMajor() + "%");
         }
         if (StringUtils.hasText(memberSearchDto.getName())) {
-            memberQuery.setParameter("name", memberSearchDto.getName());
+            memberQuery.setParameter("name", memberSearchDto.getName() + "%");
         }
         if (memberSearchDto.getPosition() != null) {
             memberQuery.setParameter("position", memberSearchDto.getPosition());
         }
         if (StringUtils.hasText(memberSearchDto.getStudentID())) {
-            memberQuery.setParameter("id", memberSearchDto.getStudentID());
+            memberQuery.setParameter("id", memberSearchDto.getStudentID() + "%");
         }
 
         return memberQuery;
