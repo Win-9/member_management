@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import time.management.domain.Major;
 import time.management.domain.Member;
+import time.management.dto.MemberAttendSearchDto;
 import time.management.dto.MemberFormDto;
 import time.management.dto.MemberSearchDto;
 import time.management.repository.MemberRepository;
@@ -63,16 +64,31 @@ public class MemberService {
         member.changeCountInfo(attendCount, quizCount, questionCount);
     }
 
-    public List<Member> findByManyQualificationWithPaging(MemberSearchDto memberSearchDto, int offset, int limit) {
-        TypedQuery<Member> memberQuery = memberRepository.findManyQualification(memberSearchDto);
+    public List<Member> findByManyQualificationMemberListWithPaging(MemberSearchDto memberSearchDto, int offset, int limit) {
+        TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto);
         return memberQuery
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
     }
 
-    public int findByManyQualificationTotalCount(MemberSearchDto memberSearchDto){
-        TypedQuery<Member> memberQuery = memberRepository.findManyQualification(memberSearchDto);
+    public int findByManyQualificationMemberListTotalCount(MemberSearchDto memberSearchDto){
+        TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto);
+
+        return memberQuery.getResultList().size();
+    }
+
+    public List<Member> findByManyQualificationMemberAttendWithPaging(MemberAttendSearchDto memberAttendSearchDto, int offset, int limit){
+        TypedQuery<Member> queryMember = memberRepository.findMemberAttendQualification(memberAttendSearchDto);
+
+        return queryMember
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    public int findByManyQualificationMemberAttendTotalCount(MemberAttendSearchDto memberAttendSearchDto){
+        TypedQuery<Member> memberQuery = memberRepository.findMemberAttendQualification(memberAttendSearchDto);
 
         return memberQuery.getResultList().size();
     }

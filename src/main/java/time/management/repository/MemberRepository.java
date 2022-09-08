@@ -1,12 +1,13 @@
 package time.management.repository;
 
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import time.management.domain.Member;
+import time.management.dto.MemberAttendCountDto;
+import time.management.dto.MemberAttendSearchDto;
 import time.management.dto.MemberSearchDto;
 
 import javax.persistence.EntityManager;
@@ -19,25 +20,25 @@ import java.util.List;
 public class MemberRepository {
     private final EntityManager em;
 
-    public void join(Member member){
+    public void join(Member member) {
         em.persist(member);
     }
 
-    public Member findById(String id){
+    public Member findById(String id) {
         return em.find(Member.class, id);
     }
 
-    public void deleteMember(Member member){
+    public void deleteMember(Member member) {
         em.remove(member);
     }
 
-    public List<Member> findByName(String name){
+    public List<Member> findByName(String name) {
         return em.createQuery("SELECT m FROM Member m WHERE m.name = :username", Member.class)
                 .setParameter("username", name)
                 .getResultList();
     }
 
-    public List<Member> findByGrade(int grade){
+    public List<Member> findByGrade(int grade) {
         return em.createQuery("SELECT m FROM Member m WHERE m.grade = :grade", Member.class)
                 .setParameter("grade", grade)
                 .getResultList();
@@ -55,7 +56,7 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public TypedQuery<Member> findManyQualification (MemberSearchDto memberSearchDto) {
+    public TypedQuery<Member> findMemberListQualification(MemberSearchDto memberSearchDto) {
 
         String jpql = "select m from Member m join m.major j ";
         boolean flag = true;
@@ -74,7 +75,7 @@ public class MemberRepository {
             if (flag) {
                 jpql += "where ";
                 flag = false;
-            }else{
+            } else {
                 jpql += "and ";
             }
 
@@ -86,7 +87,7 @@ public class MemberRepository {
             if (flag) {
                 jpql += "where ";
                 flag = false;
-            }else{
+            } else {
                 jpql += "and ";
             }
 
@@ -98,7 +99,7 @@ public class MemberRepository {
             if (flag) {
                 jpql += "where ";
                 flag = false;
-            }else{
+            } else {
                 jpql += "and ";
             }
 
@@ -110,7 +111,7 @@ public class MemberRepository {
             if (flag) {
                 jpql += "where ";
                 flag = false;
-            }else{
+            } else {
                 jpql += "and ";
             }
 
@@ -139,5 +140,44 @@ public class MemberRepository {
         }
 
         return memberQuery;
+    }
+
+    public TypedQuery<Member> findMemberAttendQualification(MemberAttendSearchDto memberAttendSearchDto) {
+
+        String jpql = "select m from Member m join m.major j ";
+        boolean flag = true;
+
+        if (StringUtils.hasText(memberAttendSearchDto.getName())) {
+            if (flag) {
+                jpql += "where ";
+                flag = false;
+            }
+            jpql += "name like: name ";
+        }
+
+        if (StringUtils.hasText(memberAttendSearchDto.getStudentID())) {
+            if (flag) {
+                jpql += "where ";
+                flag = false;
+            }
+
+            jpql += "id like: id";
+        }
+
+        log.info("query = {}", jpql);
+
+
+        TypedQuery<Member> memberQuery = em.createQuery(jpql, Member.class);
+
+        if (StringUtils.hasText(memberAttendSearchDto.getName())) {
+            memberQuery.setParameter("name", memberAttendSearchDto.getName() + "%");
+        }
+
+        if (StringUtils.hasText(memberAttendSearchDto.getStudentID())) {
+            memberQuery.setParameter("id", memberAttendSearchDto.getStudentID() + "%");
+        }
+
+        return memberQuery;
+
     }
 }
