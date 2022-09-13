@@ -112,7 +112,8 @@
             <a class="page-link">Previous</a>
         </li>
 
-        <li class="page-item" th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
+        <li class="page-item"
+            th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
             <a class="page-link"
                th:href="@{?name={name}&id={id}&page={page} (name=${memberAttend.name}, id=${memberAttend.studentID} ,page = ${pageStat.count})}"
                th:text="${pageStat.index + 1}"/>

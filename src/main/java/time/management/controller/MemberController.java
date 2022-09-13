@@ -45,7 +45,6 @@ public class MemberController {
 
 
 
-
         //페이징
         int offset = (page - 1) * 10;
         List<Member> findResultMembers = memberService.findByManyQualificationMemberListWithPaging(memberSearchDto, offset, 10);
