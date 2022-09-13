@@ -36,29 +36,6 @@
 
 <div class="tableDiv">
 
-
-    <!--검색-->
-    <form class="row gx-3 gy-2 align-items-center" th:object="${memberAttend}" method="get">
-
-        <div class="col-sm-2">
-            <div class="input-group">
-                <div class="input-group-text">이름</div>
-                <input type="text" class="form-control" th:field="${memberAttend.name}" placeholder="name">
-            </div>
-        </div>
-
-        <div class="col-sm-2">
-            <div class="input-group">
-                <div class="input-group-text">학번</div>
-                <input type="text" class="form-control" th:field="${memberAttend.studentID}" placeholder="ID">
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary">search</button>
-        </div>
-    </form>
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -103,6 +80,29 @@
         </tr>
         </tbody>
     </table>
+
+    <!--검색-->
+    <form class="row gx-3 gy-2 align-items-center" th:object="${memberAttend}" method="get">
+
+        <div class="col-sm-2">
+            <div class="input-group">
+                <div class="input-group-text">이름</div>
+                <input type="text" class="form-control" th:field="${memberAttend.name}" placeholder="name">
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="input-group">
+                <div class="input-group-text">학번</div>
+                <input type="text" class="form-control" th:field="${memberAttend.studentID}" placeholder="ID">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">search</button>
+        </div>
+    </form>
+
 </div>
 
 <!--페이지네이션-->
