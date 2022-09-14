@@ -9,6 +9,7 @@ import time.management.domain.Member;
 import time.management.dto.MemberAttendCountDto;
 import time.management.dto.MemberAttendSearchDto;
 import time.management.dto.MemberSearchDto;
+import time.management.dto.OrderDto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -56,7 +57,7 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public TypedQuery<Member> findMemberListQualification(MemberSearchDto memberSearchDto) {
+    public TypedQuery<Member> findMemberListQualification(MemberSearchDto memberSearchDto, OrderDto orderDto) {
 
         String jpql = "select m from Member m join m.major j ";
         boolean flag = true;
@@ -116,6 +117,27 @@ public class MemberRepository {
             }
 
             jpql += "m.id like :id";
+        }
+
+        //정렬옵션
+
+        if (orderDto.getSortBase() != null) {
+            if (orderDto.getSortBase().equals("이름")) {
+                jpql += " Order by m.name";
+            }else if(orderDto.getSortBase().equals("학번")){
+                jpql += " Order by m.id";
+            }else{
+                jpql += "Order by m.grade"+ orderDto.getSortBase();
+            }
+        }
+
+
+        if (orderDto.getOrderOption() != null) {
+            if (orderDto.getOrderOption().equals("오름차순")) {
+                jpql += " asc";
+            }else{
+                jpql += " desc";
+            }
         }
 
         log.info("query = {}", jpql);

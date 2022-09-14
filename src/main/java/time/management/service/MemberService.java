@@ -9,6 +9,7 @@ import time.management.domain.Member;
 import time.management.dto.MemberAttendSearchDto;
 import time.management.dto.MemberFormDto;
 import time.management.dto.MemberSearchDto;
+import time.management.dto.OrderDto;
 import time.management.repository.MemberRepository;
 
 import javax.persistence.TypedQuery;
@@ -64,16 +65,16 @@ public class MemberService {
         member.changeCountInfo(attendCount, quizCount, questionCount);
     }
 
-    public List<Member> findByManyQualificationMemberListWithPaging(MemberSearchDto memberSearchDto, int offset, int limit) {
-        TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto);
+    public List<Member> findByManyQualificationMemberListWithPaging(MemberSearchDto memberSearchDto, OrderDto orderDto, int offset, int limit) {
+        TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto, orderDto);
         return memberQuery
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
     }
 
-    public int findByManyQualificationMemberListTotalCount(MemberSearchDto memberSearchDto){
-        TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto);
+    public int findByManyQualificationMemberListTotalCount(MemberSearchDto memberSearchDto, OrderDto orderDto){
+        TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto, orderDto);
 
         return memberQuery.getResultList().size();
     }

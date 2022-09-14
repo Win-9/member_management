@@ -8,10 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import time.management.domain.*;
-import time.management.dto.MemberAttendCountDto;
-import time.management.dto.MemberAttendSearchDto;
-import time.management.dto.MemberFormDto;
-import time.management.dto.MemberSearchDto;
+import time.management.dto.*;
 import time.management.service.MajorService;
 import time.management.service.MemberService;
 import time.management.validation.MemberValidator;
@@ -35,6 +32,7 @@ public class MemberController {
      */
     @GetMapping("/management/members")
     public String memberListController(@ModelAttribute("memberSearch")MemberSearchDto memberSearchDto,
+                                       @ModelAttribute("orderOption") OrderDto orderDto,
                                        Model model, @RequestParam(defaultValue = "1") int page) {
         log.info("=============== page = {} ==================", page);
 
@@ -43,12 +41,13 @@ public class MemberController {
         log.info("student = {}", memberSearchDto.getStudentID());
         log.info("position = {}", memberSearchDto.getPosition());
 
-
+        log.info("orderBase = {}", orderDto.getSortBase());
+        log.info("orderOption = {}", orderDto.getOrderOption());
 
         //페이징
         int offset = (page - 1) * 10;
-        List<Member> findResultMembers = memberService.findByManyQualificationMemberListWithPaging(memberSearchDto, offset, 10);
-        int totalSize = memberService.findByManyQualificationMemberListTotalCount(memberSearchDto);
+        List<Member> findResultMembers = memberService.findByManyQualificationMemberListWithPaging(memberSearchDto, orderDto, offset, 10);
+        int totalSize = memberService.findByManyQualificationMemberListTotalCount(memberSearchDto, orderDto);
         model.addAttribute("totalMember", totalSize);//검색쿼리의 총 size
 
         log.info("size = {}", totalSize);
