@@ -125,20 +125,20 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         <li class="page-item" th:classappend="${currentPage} == '1' ? 'disabled'">
-            <a class="page-link" th:href="@{?position={position}&grade={grade}&name={name}&studentID={id}&major={major}&page={page}
-             (grade = ${queryMember.grade}, major = ${queryMember.major}, position = ${queryMember.position}, name = ${queryMember.name}, id = ${queryMember.studentID}, page = ${currentPage} - 1)}">Previous</a>
+            <a class="page-link" th:href="@{?position={position}&grade={grade}&name={name}&studentID={id}&major={major}&sortBase={sortBase}&orderOption={orderOption}&page={page}
+                          (grade = ${queryMember.grade}, major = ${queryMember.major}, position = ${queryMember.position}, name = ${queryMember.name}, id = ${queryMember.studentID}, sortBase = ${orderOption.sortBase}, orderOption = ${orderOption.orderOption}, page = ${currentPage} - 1)}">Previous</a>
         </li>
 
         <li class="page-item" th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
             <a class="page-link"
-               th:href="@{?position={position}&grade={grade}&name={name}&studentID={id}&major={major}&page={page}
-                (grade = ${queryMember.grade}, major = ${queryMember.major}, position = ${queryMember.position}, name = ${queryMember.name}, id = ${queryMember.studentID}, page = ${pageStat.count})}"
+               th:href="@{?position={position}&grade={grade}&name={name}&studentID={id}&major={major}&sortBase={sortBase}&orderOption={orderOption}&page={page}
+                (grade = ${queryMember.grade}, major = ${queryMember.major}, position = ${queryMember.position}, name = ${queryMember.name}, id = ${queryMember.studentID}, sortBase = ${orderOption.sortBase}, orderOption = ${orderOption.orderOption}, page = ${pageStat.count})}"
                th:text="${pageStat.index + 1}"/>
         </li>
 
         <li class="page-item" th:classappend="${currentPage} == ${size} ? 'disabled'">
-            <a class="page-link" th:href="@{?position={position}&grade={grade}&name={name}&studentID={id}&major={major}&page={page}
-            (grade = ${queryMember.grade}, major = ${queryMember.major}, position = ${queryMember.position}, name = ${queryMember.name}, id = ${queryMember.studentID}, page = ${currentPage} + 1)}">Next</a>
+            <a class="page-link" th:href="@{?position={position}&grade={grade}&name={name}&studentID={id}&major={major}&sortBase={sortBase}&orderOption={orderOption}&page={page}
+            (grade = ${queryMember.grade}, major = ${queryMember.major}, position = ${queryMember.position}, name = ${queryMember.name}, id = ${queryMember.studentID}, sortBase = ${orderOption.sortBase}, orderOption = ${orderOption.orderOption}, page = ${currentPage} + 1)}">Next</a>
         </li>
     </ul>
 </nav>
