@@ -161,7 +161,7 @@ public class MemberRepository {
                 flag = false;
             }
 
-            jpql += "id like: id";
+            jpql += "STUDENT_ID like: id";
         }
 
         log.info("query = {}", jpql);
