@@ -93,9 +93,9 @@
             <div class="input-group">
                 <div class="input-group-text">기준</div>
                 <select class="form-select" name="sortBase" id="specificSizeInputGroupUsername">
-                    <option>이름</option>
-                    <option selected>학번</option>
-                    <option>학년</option>
+                    <option th:selected="${orderOption.sortBase} == '이름'">이름</option>
+                    <option th:selected="${orderOption.sortBase} == '학번'">학번</option>
+                    <option th:selected="${orderOption.sortBase} == '학년'">학년</option>
                 </select>
             </div>
         </div>
@@ -104,11 +104,11 @@
             <div class="form-check">
 
                 <label class="form-check-label" for="ascOrder">
-                    <input class="form-check-input" type="radio" value="오름차순" name="orderOption" id="ascOrder" checked>
+                    <input class="form-check-input" type="radio" value="오름차순" name="orderOption" id="ascOrder" th:checked= "${orderOption.orderOption} == '오름차순'">
                     오름차순
                 </label>
                 <label class="form-check-label" for="descOrder" style="margin-left: 12%;">
-                    <input class="form-check-input" type="radio" value="내림차순" name="orderOption" id="descOrder">
+                    <input class="form-check-input" type="radio" value="내림차순" name="orderOption" id="descOrder" th:checked = "${orderOption.orderOption} == '내림차순'">
                     내림차순
                 </label>
 
