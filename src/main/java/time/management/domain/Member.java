@@ -2,6 +2,7 @@ package time.management.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Position position;
 
-    private int grade;
+    private Integer grade;
 
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
