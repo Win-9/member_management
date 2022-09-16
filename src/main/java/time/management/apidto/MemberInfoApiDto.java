@@ -1,15 +1,11 @@
 package time.management.apidto;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import time.management.domain.*;
 
-import javax.persistence.*;
-
 @Data
-public class MemberListApi {
+public class MemberInfoApiDto {
 
     private String id;
 
@@ -29,7 +25,7 @@ public class MemberListApi {
 
     private CountInfo countInfo;
 
-    public MemberListApi(Member member) {
+    public MemberInfoApiDto(Member member) {
         id = member.getId();
         major = member.getMajor().getName();
         name = member.getName();
