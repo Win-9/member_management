@@ -127,7 +127,7 @@ public class MemberRepository {
             }else if(orderDto.getSortBase().equals("학번")){
                 jpql += " Order by m.id";
             }else{
-                jpql += "Order by m.grade"+ orderDto.getSortBase();
+                jpql += "Order by m.grade";
             }
         }
 
