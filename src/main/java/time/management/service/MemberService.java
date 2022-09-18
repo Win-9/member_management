@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import time.management.domain.Major;
 import time.management.domain.Member;
-import time.management.dto.MemberAttendSearchDto;
-import time.management.dto.MemberFormDto;
-import time.management.dto.MemberSearchDto;
-import time.management.dto.OrderDto;
+import time.management.dto.*;
 import time.management.repository.MemberRepository;
 
 import javax.persistence.TypedQuery;
@@ -65,7 +62,7 @@ public class MemberService {
         member.changeCountInfo(attendCount, quizCount, questionCount);
     }
 
-    public List<Member> findByManyQualificationMemberListWithPaging(MemberSearchDto memberSearchDto, OrderDto orderDto, int offset, int limit) {
+    public List<Member> findByManyQualificationMemberListWithPaging(MemberSearchDto memberSearchDto, MemberOrderDto orderDto, int offset, int limit) {
         TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto, orderDto);
         return memberQuery
                 .setFirstResult(offset)
@@ -73,14 +70,14 @@ public class MemberService {
                 .getResultList();
     }
 
-    public int findByManyQualificationMemberListTotalCount(MemberSearchDto memberSearchDto, OrderDto orderDto){
+    public int findByManyQualificationMemberListTotalCount(MemberSearchDto memberSearchDto, MemberOrderDto orderDto){
         TypedQuery<Member> memberQuery = memberRepository.findMemberListQualification(memberSearchDto, orderDto);
 
         return memberQuery.getResultList().size();
     }
 
-    public List<Member> findByManyQualificationMemberAttendWithPaging(MemberAttendSearchDto memberAttendSearchDto, int offset, int limit){
-        TypedQuery<Member> queryMember = memberRepository.findMemberAttendQualification(memberAttendSearchDto);
+    public List<Member> findByManyQualificationMemberAttendWithPaging(MemberAttendSearchDto memberAttendSearchDto, MemberAttendListOrderDto memberAttendListOrderDto, int offset, int limit){
+        TypedQuery<Member> queryMember = memberRepository.findMemberAttendQualification(memberAttendSearchDto, memberAttendListOrderDto);
 
         return queryMember
                 .setFirstResult(offset)
@@ -88,8 +85,8 @@ public class MemberService {
                 .getResultList();
     }
 
-    public int findByManyQualificationMemberAttendTotalCount(MemberAttendSearchDto memberAttendSearchDto){
-        TypedQuery<Member> memberQuery = memberRepository.findMemberAttendQualification(memberAttendSearchDto);
+    public int findByManyQualificationMemberAttendTotalCount(MemberAttendSearchDto memberAttendSearchDto, MemberAttendListOrderDto memberAttendListOrderDto){
+        TypedQuery<Member> memberQuery = memberRepository.findMemberAttendQualification(memberAttendSearchDto, memberAttendListOrderDto);
 
         return memberQuery.getResultList().size();
     }

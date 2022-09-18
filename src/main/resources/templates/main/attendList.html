@@ -103,6 +103,40 @@
         </div>
     </form>
 
+    <br>
+
+    <form class="row gx-3 gy-2 align-items-center" method="get">
+        <div class="col-sm-2">
+            <div class="input-group">
+                <div class="input-group-text">기준</div>
+                <select class="form-select" name="sortBase" id="specificSizeInputGroupUsername">
+                    <option th:selected="${orderOption.sortBase} == 'Attend'">Attend</option>
+                    <option th:selected="${orderOption.sortBase} == 'Quiz'">Quiz</option>
+                    <option th:selected="${orderOption.sortBase} == 'Question'">Question</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="form-check">
+
+                <label class="form-check-label" for="ascOrder">
+                    <input class="form-check-input" type="radio" value="오름차순" name="orderOption" id="ascOrder" th:checked= "${orderOption.orderOption} == '오름차순'">
+                    오름차순
+                </label>
+                <label class="form-check-label" for="descOrder" style="margin-left: 12%;">
+                    <input class="form-check-input" type="radio" value="내림차순" name="orderOption" id="descOrder" th:checked = "${orderOption.orderOption} == '내림차순'">
+                    내림차순
+                </label>
+
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">정렬</button>
+        </div>
+    </form>
+
 </div>
 
 <!--페이지네이션-->
@@ -115,7 +149,8 @@
         <li class="page-item"
             th:each="page : ${#numbers.sequence(1,size)}" th:classappend="${page} == ${currentPage} ? 'active'">
             <a class="page-link"
-               th:href="@{?name={name}&id={id}&page={page} (name=${memberAttend.name}, id=${memberAttend.studentID} ,page = ${pageStat.count})}"
+               th:href="@{?name={name}&id={id}&sortBase={sortBase}&orderOption={orderOption}&page={page}
+               (name=${memberAttend.name}, id=${memberAttend.studentID}, sortBase = ${orderOption.sortBase}, orderOption = ${orderOption.orderOption} ,page = ${pageStat.count})}"
                th:text="${pageStat.index + 1}"/>
         </li>
 

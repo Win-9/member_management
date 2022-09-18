@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import time.management.domain.Member;
-import time.management.dto.MemberAttendCountDto;
+import time.management.dto.MemberAttendListOrderDto;
 import time.management.dto.MemberAttendSearchDto;
 import time.management.dto.MemberSearchDto;
-import time.management.dto.OrderDto;
+import time.management.dto.MemberOrderDto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -57,7 +57,7 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public TypedQuery<Member> findMemberListQualification(MemberSearchDto memberSearchDto, OrderDto orderDto) {
+    public TypedQuery<Member> findMemberListQualification(MemberSearchDto memberSearchDto, MemberOrderDto orderDto) {
 
         String jpql = "select m from Member m join m.major j ";
         boolean flag = true;
@@ -164,11 +164,12 @@ public class MemberRepository {
         return memberQuery;
     }
 
-    public TypedQuery<Member> findMemberAttendQualification(MemberAttendSearchDto memberAttendSearchDto) {
+    public TypedQuery<Member> findMemberAttendQualification(MemberAttendSearchDto memberAttendSearchDto, MemberAttendListOrderDto memberAttendListOrderDto) {
 
         String jpql = "select m from Member m join m.major j ";
         boolean flag = true;
 
+        //동적쿼리
         if (StringUtils.hasText(memberAttendSearchDto.getName())) {
             if (flag) {
                 jpql += "where ";
@@ -185,6 +186,27 @@ public class MemberRepository {
 
             jpql += "STUDENT_ID like: id";
         }
+
+        // 정렬
+
+        if (StringUtils.hasText(memberAttendListOrderDto.getSortBase())){
+            if (memberAttendListOrderDto.getSortBase().equals("Attend")){
+                jpql +=" Order by m.countInfo.attendanceCount";
+            }else if(memberAttendListOrderDto.getSortBase().equals("Quiz")){
+                jpql +=" Order by m.countInfo.quizCount";
+            }else{
+                jpql += " Order by m.countInfo.questionCount";
+            }
+        }
+
+        if (StringUtils.hasText(memberAttendListOrderDto.getOrderOption())){
+            if (memberAttendListOrderDto.getOrderOption().equals("내림차순")){
+                jpql +=" desc";
+            }else{
+                jpql += " asc";
+            }
+        }
+
 
         log.info("query = {}", jpql);
 

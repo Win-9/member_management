@@ -32,7 +32,7 @@ public class MemberController {
      */
     @GetMapping("/management/members")
     public String memberListController(@ModelAttribute("memberSearch")MemberSearchDto memberSearchDto,
-                                       @ModelAttribute("orderOption") OrderDto orderDto,
+                                       @ModelAttribute("orderOption") MemberOrderDto orderDto,
                                        Model model, @RequestParam(defaultValue = "1") int page) {
         log.info("=============== page = {} ==================", page);
 
@@ -189,6 +189,7 @@ public class MemberController {
      */
     @GetMapping("/management/attendList")
     public String memberAttendListController(@ModelAttribute("memberAttend") MemberAttendSearchDto memberAttendSearchDto,
+                                             @ModelAttribute("orderOption") MemberAttendListOrderDto memberAttendListOrderDto,
                                              @RequestParam(defaultValue = "1") int page, Model model) {
 
         log.info("=============== page = {} ==================", page);
@@ -197,7 +198,7 @@ public class MemberController {
         log.info("student = {}", memberAttendSearchDto.getStudentID());
 
         //페이지네이션
-        int totalSize = memberService.findByManyQualificationMemberAttendTotalCount(memberAttendSearchDto);
+        int totalSize = memberService.findByManyQualificationMemberAttendTotalCount(memberAttendSearchDto, memberAttendListOrderDto);
         if (totalSize % 10 != 0) {// 일의자리가 남아있으면
             totalSize += 10;
         }
@@ -205,7 +206,7 @@ public class MemberController {
         model.addAttribute("size", totalSize / 10);
 
         int offset = (page - 1) * 10;
-        List<Member> findMembers = memberService.findByManyQualificationMemberAttendWithPaging(memberAttendSearchDto, offset, 10);
+        List<Member> findMembers = memberService.findByManyQualificationMemberAttendWithPaging(memberAttendSearchDto, memberAttendListOrderDto, offset, 10);
 
         model.addAttribute("members", findMembers);
         model.addAttribute("currentPage", page);
