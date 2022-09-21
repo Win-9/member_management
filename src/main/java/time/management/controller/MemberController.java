@@ -13,6 +13,7 @@ import time.management.service.MajorService;
 import time.management.service.MemberService;
 import time.management.validation.MemberValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -97,7 +98,8 @@ public class MemberController {
      * @return
      */
     @PostMapping("/management/addMember")
-    public String addMemberFormController(@ModelAttribute(name = "member") MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+    public String addMemberFormController(@ModelAttribute(name = "member") MemberFormDto memberFormDto,
+                                          BindingResult bindingResult, Model model) {
 
         log.info("name = {}", memberFormDto.getName());
         log.info("major = {}", memberFormDto.getMajor());
@@ -166,6 +168,7 @@ public class MemberController {
      */
     @PostMapping("/management/modify/{id}")
     public String modifyMemberFormController(@PathVariable String id, @ModelAttribute MemberFormDto memberFormDto) {
+
         Member findMember = memberService.findByMemberId(id);
 
         Major findMajor = majorService.findByMajorName(memberFormDto.getMajor());
@@ -227,15 +230,20 @@ public class MemberController {
      * @return
      */
     @PostMapping("/management/attendList/{id}")
-    public String memberAttendListModifyForm (@PathVariable String id, @ModelAttribute MemberAttendCountDto memberAttendCountDto){
-        log.info("memberAttendListModifyForm");
+    public String memberAttendListModifyForm (@PathVariable String id,
+                                              @ModelAttribute MemberAttendCountDto memberAttendCountDto,
+                                              HttpServletRequest request){
+        log.info("url = {}", request.getRequestURI());
 
         Member findMember = memberService.findByMemberId(id);
 
         memberService.updateMemberCountInfo(findMember, memberAttendCountDto.getAttendCount(),
                 memberAttendCountDto.getQuizCount(), memberAttendCountDto.getQuestionCount());
 
-        return "redirect:/management/attendList";
+        String refer = request.getHeader("Referer");
+        log.info("refer = {}", refer);
+
+        return "redirect:" + refer;
     }
 
     /**
