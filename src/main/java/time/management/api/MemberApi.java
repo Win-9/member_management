@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import time.management.apidto.MemberAttendDto;
+import time.management.apidto.MemberAttendMoreThanOnceDto;
 import time.management.apidto.MemberInfoApiDto;
 import time.management.domain.Member;
 import time.management.service.MemberService;
@@ -75,6 +76,26 @@ public class MemberApi {
 
         }catch (Exception e){
             resultMap.put("successRequest", "false");
+            resultMap.put("member", null);
+        }
+
+        return resultMap;
+    }
+
+    @GetMapping("/attend/attendMoreThanOnceMemberList")
+    public HashMap<String, Object> memberAttendMoreThanOnce(){
+        try {
+            List<MemberAttendMoreThanOnceDto> memberDto = memberService.findAll().stream()
+                    .filter(m -> m.getCountInfo().getAttendanceCount() != 0)
+                    .map(m -> new MemberAttendMoreThanOnceDto(m))
+                    .collect(Collectors.toList());
+            resultMap.put("successRequest", "true");
+            resultMap.put("size", memberDto.size());
+            resultMap.put("member", memberDto);
+
+        }catch (Exception e){
+            resultMap.put("successRequest", "false");
+            resultMap.put("size", -999);
             resultMap.put("member", null);
         }
 
