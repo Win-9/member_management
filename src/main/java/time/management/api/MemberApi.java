@@ -3,10 +3,7 @@ package time.management.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import time.management.apidto.MemberAttendDto;
 import time.management.apidto.MemberAttendMoreThanOnceDto;
 import time.management.apidto.MemberInfoApiDto;
@@ -28,11 +25,12 @@ public class MemberApi {
 
     //memberListApi
     @GetMapping("/memberList")
-    public HashMap<String, Object> membersListApi() {
+    public HashMap<String, Object> membersListApi(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                                  @RequestParam(value = "limit", defaultValue = "10") int limit) {
             //List Dto 변환
 
         try {
-            List<MemberInfoApiDto> result = memberService.findAll().stream()
+            List<MemberInfoApiDto> result = memberService.findAllWithPaing(offset, limit).stream()
                     .map(m -> new MemberInfoApiDto(m))
                     .collect(Collectors.toList());
 

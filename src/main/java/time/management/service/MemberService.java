@@ -44,6 +44,10 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    public List<Member> findAllWithPaing(int offset, int limit){
+        return memberRepository.findAllWithPaging(offset, limit);
+    }
+
     @Transactional
     public void updateMember(Member member, MemberFormDto memberFormDto, Major major){
         member.getMajor().deleteMember(member);// 속한 Major 변경
@@ -54,7 +58,7 @@ public class MemberService {
     }
 
     public List<Member> findByPage(int offset, int limit) {
-        return memberRepository.findPage(offset, limit);
+        return memberRepository.findAllWithPaging(offset, limit);
     }
 
     @Transactional

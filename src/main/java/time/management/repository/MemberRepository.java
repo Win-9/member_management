@@ -50,7 +50,7 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public List<Member> findPage(int offset, int limit) {
+    public List<Member> findAllWithPaging(int offset, int limit) {
         return em.createQuery("select m from Member m", Member.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
