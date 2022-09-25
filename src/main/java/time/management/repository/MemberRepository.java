@@ -59,7 +59,7 @@ public class MemberRepository {
 
     public TypedQuery<Member> findMemberListQualification(MemberSearchDto memberSearchDto, MemberOrderDto orderDto) {
 
-        String jpql = "select m from Member m fetch join m.major j ";
+        String jpql = "select m from Member m join fetch m.major j ";
         boolean flag = true;
 
         //학년
@@ -166,7 +166,7 @@ public class MemberRepository {
 
     public TypedQuery<Member> findMemberAttendQualification(MemberAttendSearchDto memberAttendSearchDto, MemberAttendListOrderDto memberAttendListOrderDto) {
 
-        String jpql = "select m from Member m fetch join m.major j ";
+        String jpql = "select m from Member m join fetch m.major j ";
         boolean flag = true;
 
         //동적쿼리
