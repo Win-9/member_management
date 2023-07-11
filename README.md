@@ -7,14 +7,7 @@
 ### skills
 |Java|SpringBoot|SpringData JPA|Thymeleaf|MySQL|Gradle|GCP|Bootstrap|
 |-|-|-|-|-|-|-|-|
-|[![My Skills](https://skillicons.dev/icons?i=java)](https://skillicons.dev)
-|[![My Skills](https://skillicons.dev/icons?i=spring)](https://skillicons.dev)
-|[![My Skills](https://skillicons.dev/icons?i=jpa)](https://skillicons.dev)
-|[![My Skills](https://skillicons.dev/icons?i=thymeleaf)](https://skillicons.dev)
-|[![My Skills](https://skillicons.dev/icons?i=mysql)](https://skillicons.dev)
-|[![My Skills](https://skillicons.dev/icons?i=gradle)](https://skillicons.dev)
-|[![My Skills](https://skillicons.dev/icons?i=gcp)](https://skillicons.dev)
-|[![My Skills](https://skillicons.dev/icons?i=bootstrap)](https://skillicons.dev)|
+|[![My Skills](https://skillicons.dev/icons?i=java)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=spring)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=jpa)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=thymeleaf)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=mysql)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=gradle)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=gcp)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=bootstrap)](https://skillicons.dev)|
 
 
 ## 기능
